@@ -1,0 +1,6 @@
+{
+  "name": "Google Article Competition",
+  "description": "Google Article Writing Competition portal for Match 1: Ayesha Khan vs Grey Bill Greeth, with an article paste workspace and instant 92% editorial evaluation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
