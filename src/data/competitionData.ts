@@ -51,7 +51,7 @@ export const MATCH_1_OPPONENT_SCORE = 86;
 
 export const MATCH_2_OPPONENT = 'Cheu Mingi';
 export const MATCH_2_USER_SCORE = 91;
-export const MATCH_2_OPPONENT_SCORE = 87;
+export const MATCH_2_OPPONENT_SCORE = 90;
 
 export const MATCH_1_CONFIG: MatchConfig = {
   id: 'match1',
@@ -275,7 +275,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     match: 'Match 2',
     articleTitle: 'Civic Protocols for Open Knowledge',
     score: `${MATCH_2_OPPONENT_SCORE}%`,
-    status: 'Completed Entry',
+    status: 'Submitted · Target Score',
     isMatch2Opponent: true,
   },
   {
