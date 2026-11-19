@@ -6,6 +6,9 @@ import {
   MATCH_1_OPPONENT,
   MATCH_1_OPPONENT_SCORE,
   MATCH_1_USER_SCORE,
+  MATCH_2_OPPONENT,
+  MATCH_2_OPPONENT_SCORE,
+  MATCH_2_USER_SCORE,
   MatchConfig,
 } from '../data/competitionData';
 
@@ -110,7 +113,8 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
       'GOOGLE ARTICLE WRITING COMPETITION — OFFICIAL SCORE REPORT',
       '=========================================================',
       `Match: ${match.label} (${match.user} vs ${match.opponent})`,
-      `First Match Record: Match 1 — ${match.user} (${MATCH_1_USER_SCORE}%) vs ${MATCH_1_OPPONENT} (${MATCH_1_OPPONENT_SCORE}%) — Winner: ${match.user}`,
+      `Match 1 Record: ${match.user} (${MATCH_1_USER_SCORE}%) vs ${MATCH_1_OPPONENT} (${MATCH_1_OPPONENT_SCORE}%) — Winner: ${match.user}`,
+      `Match 2 Record: ${match.user} (${MATCH_2_USER_SCORE}%) vs ${MATCH_2_OPPONENT} (${MATCH_2_OPPONENT_SCORE}%) — Winner: ${match.user}`,
       `Competitor: ${match.user}`,
       `Article Title: ${displayTitle}`,
       `Submitted At: ${submittedAt}`,
@@ -445,7 +449,19 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
             </div>
           </div>
 
-          {/* Previous Match 1 Reference Strip when viewing Match 2 */}
+          {/* Previous Matches Reference Strip */}
+          {match.id === 'match3' && (
+            <div className="mt-4 rounded-xl border border-[#E8EAED] bg-[#F8F9FA] px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F6368]">
+              <span>
+                <span className="font-semibold text-[#202124]">Last Matches:</span>{' '}
+                Match 1 ({match.user} {MATCH_1_USER_SCORE}% vs {MATCH_1_OPPONENT}{' '}
+                {MATCH_1_OPPONENT_SCORE}%) · Match 2 ({match.user} {MATCH_2_USER_SCORE}% vs{' '}
+                {MATCH_2_OPPONENT} {MATCH_2_OPPONENT_SCORE}%)
+              </span>
+              <span className="font-medium text-[#137333]">2–0 Record · {match.user}</span>
+            </div>
+          )}
+
           {match.id === 'match2' && (
             <div className="mt-4 rounded-xl border border-[#E8EAED] bg-[#F8F9FA] px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F6368]">
               <span>

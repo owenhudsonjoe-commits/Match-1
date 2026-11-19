@@ -4,6 +4,9 @@ import {
   MATCH_1_OPPONENT,
   MATCH_1_OPPONENT_SCORE,
   MATCH_1_USER_SCORE,
+  MATCH_2_OPPONENT,
+  MATCH_2_OPPONENT_SCORE,
+  MATCH_2_USER_SCORE,
   MatchConfig,
 } from '../data/competitionData';
 
@@ -42,18 +45,30 @@ export const GoogleWordmark: React.FC<GoogleWordmarkProps> = ({ activeMatch }) =
         <span>{activeMatch.bracketSubtitle}</span>
       </div>
 
-      {/* First Match Score Record */}
-      <div className="mt-3 mx-auto inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 rounded-xl border border-[#DADCE0] bg-[#F8F9FA] px-4 py-2 text-xs sm:text-sm text-[#3C4043]">
-        <span className="font-semibold text-[#202124]">Match 1 Score:</span>
-        <span className="font-mono tabular-nums font-medium text-[#137333]">
-          {COMPETITOR_USER} {MATCH_1_USER_SCORE}%
-        </span>
-        <span className="text-[#5F6368]">vs</span>
-        <span className="font-mono tabular-nums text-[#5F6368]">
-          {MATCH_1_OPPONENT} {MATCH_1_OPPONENT_SCORE}%
+      {/* Previous Matches Score Record (Match 1 & Match 2) */}
+      <div className="mt-3 mx-auto inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 rounded-xl border border-[#DADCE0] bg-[#F8F9FA] px-4 py-2 text-xs sm:text-sm text-[#3C4043]">
+        <span className="font-semibold text-[#202124]">Previous Matches:</span>
+        <span className="font-mono tabular-nums">
+          <span className="font-semibold text-[#202124]">Match 1:</span>{' '}
+          <span className="font-medium text-[#137333]">
+            {COMPETITOR_USER} {MATCH_1_USER_SCORE}%
+          </span>{' '}
+          <span className="text-[#5F6368]">vs</span>{' '}
+          <span className="text-[#5F6368]">
+            {MATCH_1_OPPONENT} {MATCH_1_OPPONENT_SCORE}%
+          </span>
         </span>
         <span aria-hidden="true" className="text-[#DADCE0]">|</span>
-        <span className="font-medium text-[#137333]">Winner: {COMPETITOR_USER}</span>
+        <span className="font-mono tabular-nums">
+          <span className="font-semibold text-[#202124]">Match 2:</span>{' '}
+          <span className="font-medium text-[#137333]">
+            {COMPETITOR_USER} {MATCH_2_USER_SCORE}%
+          </span>{' '}
+          <span className="text-[#5F6368]">vs</span>{' '}
+          <span className="text-[#5F6368]">
+            {MATCH_2_OPPONENT} {MATCH_2_OPPONENT_SCORE}%
+          </span>
+        </span>
       </div>
     </section>
   );

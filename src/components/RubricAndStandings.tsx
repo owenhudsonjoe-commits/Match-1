@@ -5,7 +5,10 @@ import {
   MATCH_1_OPPONENT_SCORE,
   MATCH_1_USER_SCORE,
   MATCH_2_OPPONENT,
+  MATCH_2_OPPONENT_SCORE,
   MATCH_2_USER_SCORE,
+  MATCH_3_OPPONENT,
+  MATCH_3_USER_SCORE,
   MATCH_STANDINGS,
   RUBRIC_BANDS,
 } from '../data/competitionData';
@@ -33,7 +36,7 @@ export const RubricPanel: React.FC<RubricPanelProps> = ({ onBackToMatch }) => {
             onClick={onBackToMatch}
             className="rounded-md bg-[#1A73E8] px-4 py-2 text-sm font-medium text-white hover:bg-[#1557B0] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
           >
-            Back to Match 2
+            Back to Match 3
           </button>
         </div>
 
@@ -61,14 +64,14 @@ export const RubricPanel: React.FC<RubricPanelProps> = ({ onBackToMatch }) => {
 };
 
 interface StandingsPanelProps {
-  match2Stage: EvaluationStage;
-  match2ArticleTitle: string;
+  match3Stage: EvaluationStage;
+  match3ArticleTitle: string;
   onBackToMatch: () => void;
 }
 
 export const StandingsPanel: React.FC<StandingsPanelProps> = ({
-  match2Stage,
-  match2ArticleTitle,
+  match3Stage,
+  match3ArticleTitle,
   onBackToMatch,
 }) => {
   return (
@@ -77,11 +80,13 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#F1F3F4] pb-5">
           <div>
             <h2 className="font-display text-2xl font-bold text-[#202124] tracking-tight">
-              Competition Standings — Match 1 &amp; Match 2
+              Competition Standings — Matches 1, 2 &amp; 3
             </h2>
             <p className="mt-1 text-sm text-[#5F6368]">
               Match 1 ({COMPETITOR_USER} {MATCH_1_USER_SCORE}% vs {MATCH_1_OPPONENT}{' '}
-              {MATCH_1_OPPONENT_SCORE}%) and Match 2 ({COMPETITOR_USER} vs {MATCH_2_OPPONENT}).
+              {MATCH_1_OPPONENT_SCORE}%), Match 2 ({COMPETITOR_USER} {MATCH_2_USER_SCORE}% vs{' '}
+              {MATCH_2_OPPONENT} {MATCH_2_OPPONENT_SCORE}%), and Match 3 ({COMPETITOR_USER} vs{' '}
+              {MATCH_3_OPPONENT}).
             </p>
           </div>
           <button
@@ -89,7 +94,7 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
             onClick={onBackToMatch}
             className="rounded-md bg-[#1A73E8] px-4 py-2 text-sm font-medium text-white hover:bg-[#1557B0] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
           >
-            Back to Match 2
+            Back to Match 3
           </button>
         </div>
 
@@ -109,46 +114,50 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
               {MATCH_STANDINGS.map((row) => {
                 const isMatch1User = Boolean(row.isMatch1User);
                 const isMatch2User = Boolean(row.isMatch2User);
-                const isMatch2Opponent = Boolean(row.isMatch2Opponent);
+                const isMatch3User = Boolean(row.isMatch3User);
+                const isMatch3Opponent = Boolean(row.isMatch3Opponent);
 
                 let resolvedTitle = row.articleTitle;
                 let resolvedScore = row.score;
                 let resolvedStatus = row.status;
 
-                if (isMatch2User) {
+                if (isMatch3User) {
                   resolvedTitle =
-                    match2ArticleTitle.trim() ||
-                    (match2Stage !== 'idle'
-                      ? 'Submitted Match 2 Entry'
+                    match3ArticleTitle.trim() ||
+                    (match3Stage !== 'idle'
+                      ? 'Submitted Match 3 Entry'
                       : 'Awaiting Submission');
-                  if (match2Stage === 'idle') {
+                  if (match3Stage === 'idle') {
                     resolvedScore = 'Pending';
                     resolvedStatus = 'Ready to Submit';
-                  } else if (match2Stage === 'evaluating_user') {
+                  } else if (match3Stage === 'evaluating_user') {
                     resolvedScore = 'Evaluating...';
                     resolvedStatus = 'Review in Progress';
-                  } else if (match2Stage === 'evaluating_opponent') {
-                    resolvedScore = `${MATCH_2_USER_SCORE}%`;
+                  } else if (match3Stage === 'evaluating_opponent') {
+                    resolvedScore = `${MATCH_3_USER_SCORE}%`;
                     resolvedStatus = 'Evaluated';
                   } else {
-                    resolvedScore = `${MATCH_2_USER_SCORE}%`;
-                    resolvedStatus = 'Winner · Match 2';
+                    resolvedScore = `${MATCH_3_USER_SCORE}%`;
+                    resolvedStatus = 'Winner · Match 3';
                   }
-                } else if (isMatch2Opponent) {
+                } else if (isMatch3Opponent) {
                   resolvedScore = row.score;
                   resolvedStatus =
-                    match2Stage === 'completed' ? 'Completed Entry' : 'Submitted · Target Score';
+                    match3Stage === 'completed' ? 'Completed Entry' : 'Submitted · Target Score';
                 }
 
                 const highlightWinner =
                   isMatch1User ||
-                  (isMatch2User &&
-                    (match2Stage === 'evaluating_opponent' || match2Stage === 'completed'));
+                  isMatch2User ||
+                  (isMatch3User &&
+                    (match3Stage === 'evaluating_opponent' || match3Stage === 'completed'));
 
                 return (
                   <tr
                     key={`${row.match}-${row.competitor}`}
-                    className={isMatch1User || isMatch2User ? 'bg-[#F8FBFF]' : 'bg-white'}
+                    className={
+                      isMatch1User || isMatch2User || isMatch3User ? 'bg-[#F8FBFF]' : 'bg-white'
+                    }
                   >
                     <td className="py-3.5 pr-4 font-mono text-[#5F6368] tabular-nums">
                       #{row.rank}

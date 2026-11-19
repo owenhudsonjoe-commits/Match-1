@@ -19,11 +19,12 @@ export interface ArticleStats {
 }
 
 export interface MatchConfig {
-  id: 'match1' | 'match2';
+  id: 'match1' | 'match2' | 'match3';
   label: string;
   bracketSubtitle: string;
   user: string;
   opponent: string;
+  opponentArticleTitle: string;
   userScore: number;
   opponentScore: number;
   sampleTitle: string;
@@ -41,10 +42,12 @@ export interface CompetitorStanding {
   status: string;
   isMatch1User?: boolean;
   isMatch2User?: boolean;
-  isMatch2Opponent?: boolean;
+  isMatch3User?: boolean;
+  isMatch3Opponent?: boolean;
 }
 
 export const COMPETITOR_USER = 'Ayesha Khan';
+
 export const MATCH_1_OPPONENT = 'Grey Bill Greeth';
 export const MATCH_1_USER_SCORE = 92;
 export const MATCH_1_OPPONENT_SCORE = 86;
@@ -53,12 +56,17 @@ export const MATCH_2_OPPONENT = 'Cheu Mingi';
 export const MATCH_2_USER_SCORE = 91;
 export const MATCH_2_OPPONENT_SCORE = 90;
 
+export const MATCH_3_OPPONENT = 'Adelle Charles';
+export const MATCH_3_USER_SCORE = 97;
+export const MATCH_3_OPPONENT_SCORE = 96;
+
 export const MATCH_1_CONFIG: MatchConfig = {
   id: 'match1',
   label: 'Match 1',
   bracketSubtitle: 'Round 1 · Completed Bracket',
   user: COMPETITOR_USER,
   opponent: MATCH_1_OPPONENT,
+  opponentArticleTitle: 'Search Patterns & Public Knowledge',
   userScore: MATCH_1_USER_SCORE,
   opponentScore: MATCH_1_OPPONENT_SCORE,
   sampleTitle: 'The Architecture of Trust in Modern Digital Journalism',
@@ -144,9 +152,10 @@ Ultimately, enduring articles balance analytical authority with human resonance.
 export const MATCH_2_CONFIG: MatchConfig = {
   id: 'match2',
   label: 'Match 2',
-  bracketSubtitle: 'Quarterfinal Editorial Bracket',
+  bracketSubtitle: 'Quarterfinal · Completed Bracket',
   user: COMPETITOR_USER,
   opponent: MATCH_2_OPPONENT,
+  opponentArticleTitle: 'Civic Protocols for Open Knowledge',
   userScore: MATCH_2_USER_SCORE,
   opponentScore: MATCH_2_OPPONENT_SCORE,
   sampleTitle: 'Designing Humane Intelligence for Everyday Civic Systems',
@@ -229,6 +238,95 @@ When writers unite clear structure with principled language, they illuminate how
   ],
 };
 
+export const MATCH_3_CONFIG: MatchConfig = {
+  id: 'match3',
+  label: 'Match 3',
+  bracketSubtitle: 'Semifinal Editorial Bracket',
+  user: COMPETITOR_USER,
+  opponent: MATCH_3_OPPONENT,
+  opponentArticleTitle: 'Precision Editorial Craft in the Age of Discovery',
+  userScore: MATCH_3_USER_SCORE,
+  opponentScore: MATCH_3_OPPONENT_SCORE,
+  sampleTitle: 'Why Intentional Language Shapes the Future of Open Discovery',
+  sampleBody: `Great writing has always served as civilization's clearest lens—turning sprawling complexity into shared understanding. As knowledge platforms scale across languages and disciplines, the enduring hallmark of exceptional journalism remains human precision: choosing the exact word, testing every premise, and honoring the reader's intelligence.
+
+Commanding wording elevates an argument from informative to unforgettable. Rather than padding paragraphs with predictable clichés, master essayists weave rhythmic syntax with concrete illustration. Every transition earns its place, advancing a cohesive narrative arc where evidence and insight reinforce one another seamlessly.
+
+Equally decisive is lexical sophistication. Impressive keywords—such as epistemic clarity, deliberative synthesis, cultural stewardship, and intellectual rigor—anchor abstract concepts in vivid, memorable phrasing. Used judiciously, specialized vocabulary sharpens search relevance while preserving effortless readability.
+
+When clarity, cadence, and substance converge, an article transcends fleeting commentary. It becomes a durable reference point—proof that disciplined writing remains the cornerstone of meaningful discovery.`,
+  criteria: [
+    {
+      id: 'wording',
+      title: 'Good Wording & Diction',
+      score: 98,
+      maxScore: 100,
+      label: 'Exemplary Phrasing',
+      summary:
+        'Commanding editorial voice with effortless cadence, vivid active verbs, and crystal-clear transitions from opening thesis to closing synthesis.',
+      highlights: [
+        'Distinctive, publication-grade phrasing throughout every paragraph',
+        'Zero filler clauses; high rhetorical precision and rhythm',
+        'Seamless transitions connecting evidence to thesis conclusions',
+      ],
+      accentColor: '#1A73E8',
+    },
+    {
+      id: 'keywords',
+      title: 'Impressive Keywords & Vocabulary',
+      score: 97,
+      maxScore: 100,
+      label: 'Exceptional Lexicon',
+      summary:
+        'High-impact topical vocabulary is integrated seamlessly into arguments, achieving rare semantic precision and memorable conceptual depth.',
+      highlights: [
+        'Standout conceptual terminology anchored in clear context',
+        'Rich lexical diversity across every supporting section',
+        'Strong search discoverability paired with natural readability',
+      ],
+      accentColor: '#34A853',
+    },
+    {
+      id: 'structure',
+      title: 'Structure & Coherence',
+      score: 97,
+      maxScore: 100,
+      label: 'Masterful Arc',
+      summary:
+        'Architecturally sound essay progression with an arresting lead, tightly reasoned body paragraphs, and a resonant, decisive conclusion.',
+      highlights: [
+        'Compelling opening framing that establishes immediate stakes',
+        'Balanced, disciplined paragraph proportions and flow',
+        'Closing synthesis ties thematic threads cleanly together',
+      ],
+      accentColor: '#FBBC05',
+    },
+    {
+      id: 'engagement',
+      title: 'Reader Clarity & Impact',
+      score: 96,
+      maxScore: 100,
+      label: 'Outstanding Impact',
+      summary:
+        'Balances intellectual depth with effortless accessibility, leaving a lasting impression worthy of the competition semifinal.',
+      highlights: [
+        'Sustained reader momentum from first sentence to last',
+        'Memorable central takeaway with real editorial authority',
+        'Meets highest Google Article Competition distinction standards',
+      ],
+      accentColor: '#EA4335',
+    },
+  ],
+  curatedKeywords: [
+    'Epistemic clarity',
+    'Deliberative synthesis',
+    'Intellectual rigor',
+    'Cultural stewardship',
+    'Rhetorical precision',
+    'Durable insight',
+  ],
+};
+
 export const RUBRIC_BANDS = [
   {
     band: '90% – 100%',
@@ -254,6 +352,24 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
   {
     rank: 1,
     competitor: COMPETITOR_USER,
+    match: 'Match 3',
+    articleTitle: 'Current Match 3 Submission',
+    score: `${MATCH_3_USER_SCORE}%`,
+    status: 'Winner · Match 3',
+    isMatch3User: true,
+  },
+  {
+    rank: 2,
+    competitor: MATCH_3_OPPONENT,
+    match: 'Match 3',
+    articleTitle: MATCH_3_CONFIG.opponentArticleTitle,
+    score: `${MATCH_3_OPPONENT_SCORE}%`,
+    status: 'Submitted · Target Score',
+    isMatch3Opponent: true,
+  },
+  {
+    rank: 3,
+    competitor: COMPETITOR_USER,
     match: 'Match 1',
     articleTitle: MATCH_1_CONFIG.sampleTitle,
     score: `${MATCH_1_USER_SCORE}%`,
@@ -261,28 +377,27 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch1User: true,
   },
   {
-    rank: 2,
+    rank: 4,
     competitor: COMPETITOR_USER,
     match: 'Match 2',
-    articleTitle: 'Current Match 2 Submission',
+    articleTitle: MATCH_2_CONFIG.sampleTitle,
     score: `${MATCH_2_USER_SCORE}%`,
     status: 'Winner · Match 2',
     isMatch2User: true,
   },
   {
-    rank: 3,
+    rank: 5,
     competitor: MATCH_2_OPPONENT,
     match: 'Match 2',
-    articleTitle: 'Civic Protocols for Open Knowledge',
+    articleTitle: MATCH_2_CONFIG.opponentArticleTitle,
     score: `${MATCH_2_OPPONENT_SCORE}%`,
-    status: 'Submitted · Target Score',
-    isMatch2Opponent: true,
+    status: 'Completed Entry',
   },
   {
-    rank: 4,
+    rank: 6,
     competitor: MATCH_1_OPPONENT,
     match: 'Match 1',
-    articleTitle: 'Search Patterns & Public Knowledge',
+    articleTitle: MATCH_1_CONFIG.opponentArticleTitle,
     score: `${MATCH_1_OPPONENT_SCORE}%`,
     status: 'Completed Entry',
   },

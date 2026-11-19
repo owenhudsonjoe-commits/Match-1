@@ -5,6 +5,9 @@ import {
   MATCH_1_OPPONENT,
   MATCH_1_OPPONENT_SCORE,
   MATCH_1_USER_SCORE,
+  MATCH_2_OPPONENT,
+  MATCH_2_OPPONENT_SCORE,
+  MATCH_2_USER_SCORE,
   MatchConfig,
 } from '../data/competitionData';
 
@@ -36,7 +39,7 @@ export const OpponentBenchmarkCard: React.FC<OpponentBenchmarkCardProps> = ({ ma
             </h2>
 
             <p className="mt-1 text-sm text-[#5F6368]">
-              Submitted &ldquo;Civic Protocols for Open Knowledge&rdquo;. Now{' '}
+              Submitted &ldquo;{match.opponentArticleTitle}&rdquo;. Now{' '}
               <span className="font-medium text-[#202124]">{match.user}</span> must write or paste
               her article below to beat {match.opponentScore}%.
             </p>
@@ -51,13 +54,14 @@ export const OpponentBenchmarkCard: React.FC<OpponentBenchmarkCardProps> = ({ ma
         </div>
 
         <div className="mt-4">
-          <div className="flex items-center justify-between text-xs text-[#5F6368] mb-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F6368] mb-1.5">
             <span>
               {match.opponent} ({match.opponentScore}%) vs {match.user} (Awaiting Submission)
             </span>
             <span className="font-mono tabular-nums">
-              Match 1: {COMPETITOR_USER} {MATCH_1_USER_SCORE}% vs {MATCH_1_OPPONENT}{' '}
-              {MATCH_1_OPPONENT_SCORE}%
+              Last Matches — Match 1: {COMPETITOR_USER} {MATCH_1_USER_SCORE}% vs {MATCH_1_OPPONENT}{' '}
+              {MATCH_1_OPPONENT_SCORE}% · Match 2: {COMPETITOR_USER} {MATCH_2_USER_SCORE}% vs{' '}
+              {MATCH_2_OPPONENT} {MATCH_2_OPPONENT_SCORE}%
             </span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-[#E8EAED]">
