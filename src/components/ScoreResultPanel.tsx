@@ -88,8 +88,10 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
     stats.extractedKeywords.length >= 3 ? stats.extractedKeywords : match.curatedKeywords;
 
   const userScoreRevealed = stage === 'evaluating_opponent' || stage === 'completed';
+  const opponentRevealed = stage === 'completed';
 
   const animatedUserScore = useAnimatedValue(match.userScore, userScoreRevealed, 1800);
+  const animatedOpponentScore = useAnimatedValue(match.opponentScore, opponentRevealed, 1800);
 
   const radius = 52;
   const circumference = 2 * Math.PI * radius;
@@ -107,7 +109,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
     const matchOutcomeLine =
       stage === 'completed'
         ? `Match Outcome: ${match.user} (${match.userScore}%) defeats ${match.opponent} (${match.opponentScore}%) — ${match.user} Wins ${match.label}!`
-        : `Match Outcome: ${match.opponent} (${match.opponentScore}%) — Final ${match.label} winning verdict pending (${formatCountdown(remainingSeconds)} remaining)`;
+        : `Match Outcome: ${match.opponent} score & ${match.label} winning message pending (${formatCountdown(remainingSeconds)} remaining)`;
 
     const reportLines = [
       'GOOGLE ARTICLE WRITING COMPETITION — OFFICIAL SCORE REPORT',
@@ -142,7 +144,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
     URL.revokeObjectURL(url);
   };
 
-  // Stage 1: 2-minute evaluation delay before revealing Ayesha Khan's 91% score (Cheu Mingi's 90% is already visible)
+  // Stage 1: 2-minute evaluation delay before revealing Ayesha Khan's score (opponent score stays hidden)
   if (stage === 'evaluating_user') {
     return (
       <motion.section
@@ -150,7 +152,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
         initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: SLOW_EASE }}
-        className="mx-auto mt-6 w-full max-w-4xl space-y-5"
+        className="mx-auto mt-8 w-full max-w-4xl"
       >
         <div className="rounded-2xl border border-[#DADCE0] bg-white p-6 sm:p-8 shadow-[0_1px_6px_rgba(32,33,36,0.08)]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
@@ -171,9 +173,8 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
 
               <p className="text-sm text-[#5F6368] max-w-xl leading-relaxed">
                 Checking wording quality, impressive keywords, paragraph coherence, and editorial
-                clarity for &ldquo;{displayTitle}&rdquo; against {match.opponent}&rsquo;s{' '}
-                <span className="font-semibold text-[#202124]">{match.opponentScore}%</span>{' '}
-                benchmark. Your score will transition in gently once the 2-minute review completes.
+                clarity for &ldquo;{displayTitle}&rdquo;. Your percentage score will transition in
+                gently once the 2-minute review completes.
               </p>
             </div>
 
@@ -198,42 +199,12 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-[#F1F3F4] pt-5">
-            <div className="rounded-xl border border-[#DADCE0] bg-[#F8F9FA] p-4">
-              <div className="flex items-center justify-between gap-2 text-sm">
-                <span className="font-semibold text-[#202124]">{match.opponent}</span>
-                <span className="font-mono font-semibold text-[#1A73E8] tabular-nums">
-                  {match.opponentScore}% · Target Score
-                </span>
-              </div>
-              <div className="mt-2.5 h-2 w-full overflow-hidden rounded-full bg-[#E8EAED]">
-                <div
-                  className="h-full rounded-full bg-[#4285F4]"
-                  style={{ width: `${match.opponentScore}%` }}
-                />
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-[#DADCE0] bg-white p-4">
-              <div className="flex items-center justify-between gap-2 text-sm">
-                <span className="font-semibold text-[#202124]">{match.user}</span>
-                <span className="font-mono text-xs font-medium text-[#5F6368] tabular-nums">
-                  Evaluating ({formatCountdown(remainingSeconds)})
-                </span>
-              </div>
-              <div className="mt-2.5 h-2 w-full overflow-hidden rounded-full bg-[#E8EAED]">
-                <div
-                  className="h-full rounded-full bg-[#1A73E8] transition-[width] duration-300"
-                  style={{ width: `${stageProgressPct}%` }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-4 text-xs text-[#5F6368]">
-            Submission locked for {match.label} · After {match.user}&rsquo;s percentage appears,
-            the final {match.label} comparison &amp; winning message will reveal after 2 additional
-            minutes.
+          <div className="mt-6 border-t border-[#F1F3F4] pt-4 text-xs text-[#5F6368]">
+            <span>
+              Submission locked for {match.label} · After {match.user}&rsquo;s percentage appears,{' '}
+              {match.opponent}&rsquo;s score and the winning message will reveal after 2 additional
+              minutes.
+            </span>
           </div>
         </div>
       </motion.section>
@@ -243,7 +214,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
   return (
     <section
       aria-labelledby="evaluation-result-heading"
-      className="mx-auto mt-6 w-full max-w-4xl space-y-6"
+      className="mx-auto mt-8 w-full max-w-4xl space-y-6"
     >
       {/* Winning Message Banner — slowly expands & fades in after both 2-minute delays complete */}
       <AnimatePresence>
@@ -274,7 +245,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
                     {match.opponentScore}%)
                   </h3>
                   <p className="mt-1 text-sm text-[#3C4043]">
-                    {match.user} edged past {match.opponent}&rsquo;s {match.opponentScore}% by a +
+                    {match.user} defeated {match.opponent} by a +
                     {match.userScore - match.opponentScore}% margin with superior wording and
                     impressive keyword depth.
                   </p>
@@ -386,12 +357,12 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
           </motion.div>
         </div>
 
-        {/* Head-to-Head Comparison */}
+        {/* Head-to-Head Comparison (Opponent % and winning message wait 2 more minutes) */}
         <div className="mt-8 border-t border-[#F1F3F4] pt-6">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
             <h3 className="font-display text-sm font-semibold text-[#202124] flex items-center gap-2">
               <Award className="h-4 w-4 text-[#FBBC05]" aria-hidden="true" />
-              {match.label} Head-to-Head Comparison
+              {match.label} Head-to-Head Result
             </h3>
             <button
               type="button"
@@ -423,30 +394,50 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
               </div>
             </div>
 
-            {/* Opponent Card: always shows Cheu Mingi's 90% score; during stage 2 shows final verdict countdown */}
-            <div className="rounded-xl border border-[#DADCE0] bg-[#F8F9FA] p-4">
-              <div className="flex items-center justify-between gap-2 text-sm">
-                <span className="font-medium text-[#202124]">{match.opponent}</span>
-                <span className="font-mono font-medium text-[#5F6368] tabular-nums">
-                  {match.opponentScore}% · Opponent
-                </span>
-              </div>
-              <div className="mt-2.5 h-2.5 w-full overflow-hidden rounded-full bg-[#E8EAED]">
-                <div
-                  className="h-full rounded-full bg-[#4285F4]"
-                  style={{ width: `${match.opponentScore}%` }}
-                />
-              </div>
-              {stage === 'evaluating_opponent' && (
-                <div className="mt-2.5 flex items-center justify-between gap-2 text-xs text-[#5F6368]">
-                  <span>Finalizing {match.label} winning verdict</span>
-                  <span className="inline-flex items-center gap-1 font-mono font-semibold text-[#1A73E8] tabular-nums">
+            {/* Opponent Card: either 2-min countdown or slow-revealed score */}
+            {stage === 'evaluating_opponent' ? (
+              <div className="rounded-xl border border-[#DADCE0] bg-[#F8F9FA] p-4">
+                <div className="flex items-center justify-between gap-2 text-sm">
+                  <span className="font-medium text-[#202124]">{match.opponent}</span>
+                  <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[#1A73E8] tabular-nums">
                     <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-                    {formatCountdown(remainingSeconds)}
+                    Reveals in {formatCountdown(remainingSeconds)}
                   </span>
                 </div>
-              )}
-            </div>
+                <div className="mt-2.5 h-2.5 w-full overflow-hidden rounded-full bg-[#E8EAED]">
+                  <div
+                    className="h-full rounded-full bg-[#FBBC05] transition-[width] duration-300"
+                    style={{ width: `${stageProgressPct}%` }}
+                  />
+                </div>
+                <p className="mt-2 text-xs text-[#5F6368]">
+                  Reviewing {match.opponent}&rsquo;s percentage and preparing the official{' '}
+                  {match.label} winning message.
+                </p>
+              </div>
+            ) : (
+              <motion.div
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.15, ease: SLOW_EASE }}
+                className="rounded-xl border border-[#DADCE0] bg-[#F8F9FA] p-4"
+              >
+                <div className="flex items-center justify-between gap-2 text-sm">
+                  <span className="font-medium text-[#3C4043]">{match.opponent}</span>
+                  <span className="font-mono font-medium text-[#5F6368] tabular-nums">
+                    {animatedOpponentScore}% · Opponent
+                  </span>
+                </div>
+                <div className="mt-2.5 h-2.5 w-full overflow-hidden rounded-full bg-[#E8EAED]">
+                  <motion.div
+                    className="h-full rounded-full bg-[#4285F4]"
+                    initial={prefersReducedMotion ? false : { width: '0%' }}
+                    animate={{ width: `${match.opponentScore}%` }}
+                    transition={{ duration: 1.8, delay: 0.2, ease: SLOW_EASE }}
+                  />
+                </div>
+              </motion.div>
+            )}
           </div>
 
           {/* Previous Matches Reference Strip */}

@@ -364,7 +364,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     match: 'Match 3',
     articleTitle: MATCH_3_CONFIG.opponentArticleTitle,
     score: `${MATCH_3_OPPONENT_SCORE}%`,
-    status: 'Submitted · Target Score',
+    status: 'Completed Entry',
     isMatch3Opponent: true,
   },
   {

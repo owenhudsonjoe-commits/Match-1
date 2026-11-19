@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { ArticleEditor } from './components/ArticleEditor';
 import { GoogleWordmark } from './components/GoogleWordmark';
-import { OpponentBenchmarkCard } from './components/OpponentBenchmarkCard';
 import { RubricPanel, StandingsPanel } from './components/RubricAndStandings';
 import { EvaluationStage, ScoreResultPanel } from './components/ScoreResultPanel';
 import { ActiveTab, TopBar } from './components/TopBar';
@@ -138,7 +137,6 @@ export default function App() {
                     }
                     transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <OpponentBenchmarkCard match={MATCH_3_CONFIG} />
                     <ArticleEditor
                       match={MATCH_3_CONFIG}
                       title={articleTitle}

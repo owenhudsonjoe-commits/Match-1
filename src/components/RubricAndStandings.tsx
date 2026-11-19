@@ -141,9 +141,19 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
                     resolvedStatus = 'Winner · Match 3';
                   }
                 } else if (isMatch3Opponent) {
-                  resolvedScore = row.score;
-                  resolvedStatus =
-                    match3Stage === 'completed' ? 'Completed Entry' : 'Submitted · Target Score';
+                  if (match3Stage === 'idle') {
+                    resolvedScore = 'Pending';
+                    resolvedStatus = 'Awaiting Match 3';
+                  } else if (
+                    match3Stage === 'evaluating_user' ||
+                    match3Stage === 'evaluating_opponent'
+                  ) {
+                    resolvedScore = 'Evaluating...';
+                    resolvedStatus = 'Review in Progress';
+                  } else {
+                    resolvedScore = row.score;
+                    resolvedStatus = row.status;
+                  }
                 }
 
                 const highlightWinner =
