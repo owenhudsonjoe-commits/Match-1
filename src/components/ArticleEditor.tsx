@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import { ClipboardPaste, FileText, RotateCcw, Search, Send } from 'lucide-react';
-import {
-  analyzeArticleText,
-  COMPETITOR_OPPONENT,
-  COMPETITOR_USER,
-  SAMPLE_ARTICLE_BODY,
-  SAMPLE_ARTICLE_TITLE,
-} from '../data/competitionData';
+import { analyzeArticleText, MatchConfig } from '../data/competitionData';
 
 interface ArticleEditorProps {
+  match: MatchConfig;
   title: string;
   body: string;
   onChangeTitle: (value: string) => void;
@@ -18,6 +13,7 @@ interface ArticleEditorProps {
 }
 
 export const ArticleEditor: React.FC<ArticleEditorProps> = ({
+  match,
   title,
   body,
   onChangeTitle,
@@ -53,9 +49,9 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({
   const handleLoadSample = () => {
     setNotice(null);
     if (!title.trim()) {
-      onChangeTitle(SAMPLE_ARTICLE_TITLE);
+      onChangeTitle(match.sampleTitle);
     }
-    onChangeBody(SAMPLE_ARTICLE_BODY);
+    onChangeBody(match.sampleBody);
     textareaRef.current?.focus();
   };
 
@@ -92,12 +88,12 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({
                 id="paste-section-heading"
                 className="font-display text-base font-semibold text-[#202124] truncate"
               >
-                Article Paste &amp; Writing Workspace
+                {match.label} Article Paste &amp; Writing Workspace
               </h2>
               <p className="text-xs text-[#5F6368] truncate">
-                Writer: <span className="font-medium text-[#202124]">{COMPETITOR_USER}</span>
+                Writer: <span className="font-medium text-[#202124]">{match.user}</span>
                 <span aria-hidden="true"> · </span>
-                Opponent: {COMPETITOR_OPPONENT}
+                Opponent: <span className="font-medium text-[#202124]">{match.opponent}</span>
               </p>
             </div>
           </div>
@@ -151,7 +147,7 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({
               onChangeBody(e.target.value);
               if (notice) setNotice(null);
             }}
-            placeholder="Ayesha Khan — write or paste your Match 1 competition article here (Ctrl+V / Cmd+V)..."
+            placeholder={`${match.user} — write or paste your ${match.label} competition article vs ${match.opponent} here (Ctrl+V / Cmd+V)...`}
             className="w-full resize-y bg-transparent text-[15px] leading-[1.7] text-[#202124] placeholder:text-[#80868B] focus:outline-none min-h-[260px]"
           />
         </div>

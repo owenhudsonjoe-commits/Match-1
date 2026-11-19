@@ -1,11 +1,17 @@
 import React from 'react';
 import {
-  COMPETITOR_OPPONENT,
   COMPETITOR_USER,
-  MATCH_LABEL,
+  MATCH_1_OPPONENT,
+  MATCH_1_OPPONENT_SCORE,
+  MATCH_1_USER_SCORE,
+  MatchConfig,
 } from '../data/competitionData';
 
-export const GoogleWordmark: React.FC = () => {
+interface GoogleWordmarkProps {
+  activeMatch: MatchConfig;
+}
+
+export const GoogleWordmark: React.FC<GoogleWordmarkProps> = ({ activeMatch }) => {
   return (
     <section className="pt-8 pb-6 text-center">
       {/* Big Google Title */}
@@ -25,15 +31,29 @@ export const GoogleWordmark: React.FC = () => {
         Article Writing Competition
       </p>
 
-      {/* Clean unboxed Match 1 matchup metadata */}
+      {/* Clean unboxed active matchup metadata */}
       <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm sm:text-base text-[#5F6368]">
-        <span className="font-semibold text-[#1A73E8]">{MATCH_LABEL}</span>
+        <span className="font-semibold text-[#1A73E8]">{activeMatch.label}</span>
         <span aria-hidden="true">·</span>
-        <span className="font-semibold text-[#202124]">{COMPETITOR_USER}</span>
+        <span className="font-semibold text-[#202124]">{activeMatch.user}</span>
         <span className="text-[#5F6368]">vs</span>
-        <span className="font-medium text-[#202124]">{COMPETITOR_OPPONENT}</span>
+        <span className="font-medium text-[#202124]">{activeMatch.opponent}</span>
         <span aria-hidden="true">·</span>
-        <span>Editorial Essay Bracket</span>
+        <span>{activeMatch.bracketSubtitle}</span>
+      </div>
+
+      {/* First Match Score Record */}
+      <div className="mt-3 mx-auto inline-flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 rounded-xl border border-[#DADCE0] bg-[#F8F9FA] px-4 py-2 text-xs sm:text-sm text-[#3C4043]">
+        <span className="font-semibold text-[#202124]">Match 1 Score:</span>
+        <span className="font-mono tabular-nums font-medium text-[#137333]">
+          {COMPETITOR_USER} {MATCH_1_USER_SCORE}%
+        </span>
+        <span className="text-[#5F6368]">vs</span>
+        <span className="font-mono tabular-nums text-[#5F6368]">
+          {MATCH_1_OPPONENT} {MATCH_1_OPPONENT_SCORE}%
+        </span>
+        <span aria-hidden="true" className="text-[#DADCE0]">|</span>
+        <span className="font-medium text-[#137333]">Winner: {COMPETITOR_USER}</span>
       </div>
     </section>
   );

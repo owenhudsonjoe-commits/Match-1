@@ -18,6 +18,20 @@ export interface ArticleStats {
   extractedKeywords: string[];
 }
 
+export interface MatchConfig {
+  id: 'match1' | 'match2';
+  label: string;
+  bracketSubtitle: string;
+  user: string;
+  opponent: string;
+  userScore: number;
+  opponentScore: number;
+  sampleTitle: string;
+  sampleBody: string;
+  criteria: RubricCriterion[];
+  curatedKeywords: string[];
+}
+
 export interface CompetitorStanding {
   rank: number;
   competitor: string;
@@ -25,97 +39,195 @@ export interface CompetitorStanding {
   articleTitle: string;
   score: string;
   status: string;
-  isCurrentUser?: boolean;
+  isMatch1User?: boolean;
+  isMatch2User?: boolean;
+  isMatch2Opponent?: boolean;
 }
 
-export const FIXED_AYESHA_SCORE = 92;
-export const OPPONENT_GREY_SCORE = 86;
-
 export const COMPETITOR_USER = 'Ayesha Khan';
-export const COMPETITOR_OPPONENT = 'Grey Bill Greeth';
-export const MATCH_LABEL = 'Match 1';
+export const MATCH_1_OPPONENT = 'Grey Bill Greeth';
+export const MATCH_1_USER_SCORE = 92;
+export const MATCH_1_OPPONENT_SCORE = 86;
 
-export const SAMPLE_ARTICLE_TITLE = 'The Architecture of Trust in Modern Digital Journalism';
+export const MATCH_2_OPPONENT = 'Cheu Mingi';
+export const MATCH_2_USER_SCORE = 91;
+export const MATCH_2_OPPONENT_SCORE = 87;
 
-export const SAMPLE_ARTICLE_BODY = `In an era defined by instantaneous information streams, the credibility of digital journalism depends on disciplined clarity, verifiable sourcing, and thoughtful language. Readers no longer merely scan headlines for breaking developments; they look for analytical depth that transforms fragmented facts into coherent understanding.
+export const MATCH_1_CONFIG: MatchConfig = {
+  id: 'match1',
+  label: 'Match 1',
+  bracketSubtitle: 'Round 1 · Completed Bracket',
+  user: COMPETITOR_USER,
+  opponent: MATCH_1_OPPONENT,
+  userScore: MATCH_1_USER_SCORE,
+  opponentScore: MATCH_1_OPPONENT_SCORE,
+  sampleTitle: 'The Architecture of Trust in Modern Digital Journalism',
+  sampleBody: `In an era defined by instantaneous information streams, the credibility of digital journalism depends on disciplined clarity, verifiable sourcing, and thoughtful language. Readers no longer merely scan headlines for breaking developments; they look for analytical depth that transforms fragmented facts into coherent understanding.
 
 Strong article writing begins with intentional wording. Rather than burying insights beneath ornate phrasing, effective writers pair precise verbs with concrete evidence. Transitions bridge complex ideas seamlessly, guiding the audience from foundational context toward forward-looking synthesis without sacrificing nuance or intellectual rigor.
 
 Equally essential is strategic vocabulary. Impressive keywords—such as algorithmic transparency, editorial accountability, cognitive synthesis, and civic resilience—anchor an argument within contemporary discourse. When integrated naturally, these terms elevate readability, strengthen search discoverability, and signal genuine subject-matter mastery.
 
-Ultimately, enduring articles balance analytical authority with human resonance. By pairing structured reasoning with memorable phrasing, a writer earns the rarest asset in modern publishing: sustained reader trust.`;
+Ultimately, enduring articles balance analytical authority with human resonance. By pairing structured reasoning with memorable phrasing, a writer earns the rarest asset in modern publishing: sustained reader trust.`,
+  criteria: [
+    {
+      id: 'wording',
+      title: 'Good Wording & Diction',
+      score: 94,
+      maxScore: 100,
+      label: 'Strong Phrasing',
+      summary:
+        'Consistent active voice, natural rhythmic transitions, and clear sentence variety keep the prose crisp and authoritative from opening to conclusion.',
+      highlights: [
+        'Balanced sentence cadence with zero filler phrases',
+        'Precise verbs and clear editorial tone throughout',
+        'Smooth paragraph transitions connecting thesis points',
+      ],
+      accentColor: '#1A73E8',
+    },
+    {
+      id: 'keywords',
+      title: 'Impressive Keywords & Vocabulary',
+      score: 91,
+      maxScore: 100,
+      label: 'Rich Terminology',
+      summary:
+        'High-value domain vocabulary is woven organically into key arguments, elevating semantic depth and topical authority without feeling forced.',
+      highlights: [
+        'Natural integration of high-impact analytical terms',
+        'Distinctive lexical variety across body paragraphs',
+        'Strong topical relevance and memorable phrasing',
+      ],
+      accentColor: '#34A853',
+    },
+    {
+      id: 'structure',
+      title: 'Structure & Coherence',
+      score: 92,
+      maxScore: 100,
+      label: 'Well-Organized',
+      summary:
+        'The article follows a clear three-part editorial arc: an engaging framing hook, evidence-backed middle sections, and a decisive concluding insight.',
+      highlights: [
+        'Immediate thesis clarity in the opening paragraph',
+        'Logical progression across supporting paragraphs',
+        'Concluding synthesis ties back to central claim',
+      ],
+      accentColor: '#FBBC05',
+    },
+    {
+      id: 'engagement',
+      title: 'Reader Clarity & Impact',
+      score: 91,
+      maxScore: 100,
+      label: 'Engaging Read',
+      summary:
+        'Accessible readability paired with persuasive reasoning ensures both general readers and competition judges remain engaged end-to-end.',
+      highlights: [
+        'High clarity index across multi-clause sentences',
+        'Compelling opening and memorable closing takeaway',
+        'Consistent audience focus suitable for publication',
+      ],
+      accentColor: '#EA4335',
+    },
+  ],
+  curatedKeywords: [
+    'Analytical depth',
+    'Intentional wording',
+    'Editorial authority',
+    'Coherent synthesis',
+    'Semantic precision',
+    'Reader trust',
+  ],
+};
 
-export const EVALUATION_CRITERIA: RubricCriterion[] = [
-  {
-    id: 'wording',
-    title: 'Good Wording & Diction',
-    score: 94,
-    maxScore: 100,
-    label: 'Strong Phrasing',
-    summary:
-      'Consistent active voice, natural rhythmic transitions, and clear sentence variety keep the prose crisp and authoritative from opening to conclusion.',
-    highlights: [
-      'Balanced sentence cadence with zero filler phrases',
-      'Precise verbs and clear editorial tone throughout',
-      'Smooth paragraph transitions connecting thesis points',
-    ],
-    accentColor: '#1A73E8',
-  },
-  {
-    id: 'keywords',
-    title: 'Impressive Keywords & Vocabulary',
-    score: 91,
-    maxScore: 100,
-    label: 'Rich Terminology',
-    summary:
-      'High-value domain vocabulary is woven organically into key arguments, elevating semantic depth and topical authority without feeling forced.',
-    highlights: [
-      'Natural integration of high-impact analytical terms',
-      'Distinctive lexical variety across body paragraphs',
-      'Strong topical relevance and memorable phrasing',
-    ],
-    accentColor: '#34A853',
-  },
-  {
-    id: 'structure',
-    title: 'Structure & Coherence',
-    score: 92,
-    maxScore: 100,
-    label: 'Well-Organized',
-    summary:
-      'The article follows a clear three-part editorial arc: an engaging framing hook, evidence-backed middle sections, and a decisive concluding insight.',
-    highlights: [
-      'Immediate thesis clarity in the opening paragraph',
-      'Logical progression across supporting paragraphs',
-      'Concluding synthesis ties back to central claim',
-    ],
-    accentColor: '#FBBC05',
-  },
-  {
-    id: 'engagement',
-    title: 'Reader Clarity & Impact',
-    score: 91,
-    maxScore: 100,
-    label: 'Engaging Read',
-    summary:
-      'Accessible readability paired with persuasive reasoning ensures both general readers and competition judges remain engaged end-to-end.',
-    highlights: [
-      'High clarity index across multi-clause sentences',
-      'Compelling opening and memorable closing takeaway',
-      'Consistent audience focus suitable for publication',
-    ],
-    accentColor: '#EA4335',
-  },
-];
+export const MATCH_2_CONFIG: MatchConfig = {
+  id: 'match2',
+  label: 'Match 2',
+  bracketSubtitle: 'Quarterfinal Editorial Bracket',
+  user: COMPETITOR_USER,
+  opponent: MATCH_2_OPPONENT,
+  userScore: MATCH_2_USER_SCORE,
+  opponentScore: MATCH_2_OPPONENT_SCORE,
+  sampleTitle: 'Designing Humane Intelligence for Everyday Civic Systems',
+  sampleBody: `As automated tools become woven into public infrastructure, the measure of technological progress is shifting from raw speed to human legibility. Communities thrive when digital systems explain their reasoning clearly, respect local context, and empower citizens rather than obscuring decisions behind opaque interfaces.
 
-export const CURATED_IMPRESSIVE_KEYWORDS = [
-  'Analytical depth',
-  'Intentional wording',
-  'Editorial authority',
-  'Coherent synthesis',
-  'Semantic precision',
-  'Reader trust',
-];
+Compelling editorial writing captures this transformation through measured wording. Every sentence should carry deliberate weight—replacing vague abstractions with concrete civic outcomes, balanced evidence, and disciplined transitions that invite critical reflection.
+
+Thoughtful terminology further sharpens an article's persuasive reach. Impressive keywords—such as civic resilience, algorithmic clarity, institutional accountability, and participatory design—ground complex policy debates in clear language readers immediately recognize and remember.
+
+When writers unite clear structure with principled language, they illuminate how innovation serves everyday people. That synthesis of precision and empathy defines enduring modern journalism.`,
+  criteria: [
+    {
+      id: 'wording',
+      title: 'Good Wording & Diction',
+      score: 92,
+      maxScore: 100,
+      label: 'Strong Phrasing',
+      summary:
+        'Poised editorial phrasing, active verbs, and clean sentence pacing establish clear authority while maintaining natural readability.',
+      highlights: [
+        'Crisp, purposeful phrasing with zero redundant clauses',
+        'Consistent tone balanced between analysis and accessibility',
+        'Measured transitions linking thesis claims smoothly',
+      ],
+      accentColor: '#1A73E8',
+    },
+    {
+      id: 'keywords',
+      title: 'Impressive Keywords & Vocabulary',
+      score: 91,
+      maxScore: 100,
+      label: 'Rich Terminology',
+      summary:
+        'Well-chosen topical keywords reinforce thematic depth and conceptual clarity without interrupting the natural flow of the prose.',
+      highlights: [
+        'High-precision domain vocabulary anchored in context',
+        'Strong lexical diversity across supporting arguments',
+        'Memorable conceptual terms that strengthen recall',
+      ],
+      accentColor: '#34A853',
+    },
+    {
+      id: 'structure',
+      title: 'Structure & Coherence',
+      score: 90,
+      maxScore: 100,
+      label: 'Well-Organized',
+      summary:
+        'Clean paragraph architecture leads readers smoothly from opening framing through analytical proof to a resonant final conclusion.',
+      highlights: [
+        'Clear thesis anchor established in the lead paragraph',
+        'Cohesive progression across body paragraphs',
+        'Decisive closing synthesis reinforcing the central argument',
+      ],
+      accentColor: '#FBBC05',
+    },
+    {
+      id: 'engagement',
+      title: 'Reader Clarity & Impact',
+      score: 91,
+      maxScore: 100,
+      label: 'Engaging Read',
+      summary:
+        'Persuasive clarity and vivid real-world framing sustain reader attention and satisfy competition rubric standards.',
+      highlights: [
+        'Immediate readability across complex ideas',
+        'Thoughtful hook and memorable concluding statement',
+        'Publication-ready polish and clear audience focus',
+      ],
+      accentColor: '#EA4335',
+    },
+  ],
+  curatedKeywords: [
+    'Civic resilience',
+    'Algorithmic clarity',
+    'Empathetic design',
+    'Structured reasoning',
+    'Public accountability',
+    'Lasting impact',
+  ],
+};
 
 export const RUBRIC_BANDS = [
   {
@@ -141,35 +253,37 @@ export const RUBRIC_BANDS = [
 export const MATCH_STANDINGS: CompetitorStanding[] = [
   {
     rank: 1,
-    competitor: 'Ayesha Khan',
+    competitor: COMPETITOR_USER,
     match: 'Match 1',
-    articleTitle: 'Current Submission',
-    score: '92%',
-    status: 'Leading Match 1',
-    isCurrentUser: true,
+    articleTitle: MATCH_1_CONFIG.sampleTitle,
+    score: `${MATCH_1_USER_SCORE}%`,
+    status: 'Winner · Match 1',
+    isMatch1User: true,
   },
   {
     rank: 2,
-    competitor: 'Grey Bill Greeth',
-    match: 'Match 1',
-    articleTitle: 'Search Patterns & Public Knowledge',
-    score: '86%',
-    status: 'Completed Entry',
+    competitor: COMPETITOR_USER,
+    match: 'Match 2',
+    articleTitle: 'Current Match 2 Submission',
+    score: `${MATCH_2_USER_SCORE}%`,
+    status: 'Winner · Match 2',
+    isMatch2User: true,
   },
   {
     rank: 3,
-    competitor: 'Elena Rostova',
+    competitor: MATCH_2_OPPONENT,
     match: 'Match 2',
-    articleTitle: 'Signal Over Noise in Science Media',
-    score: '89%',
-    status: 'Match 2 Winner',
+    articleTitle: 'Civic Protocols for Open Knowledge',
+    score: `${MATCH_2_OPPONENT_SCORE}%`,
+    status: 'Completed Entry',
+    isMatch2Opponent: true,
   },
   {
     rank: 4,
-    competitor: 'Marcus Vance',
-    match: 'Match 2',
-    articleTitle: 'Civic Design for Open Information',
-    score: '84%',
+    competitor: MATCH_1_OPPONENT,
+    match: 'Match 1',
+    articleTitle: 'Search Patterns & Public Knowledge',
+    score: `${MATCH_1_OPPONENT_SCORE}%`,
     status: 'Completed Entry',
   },
 ];

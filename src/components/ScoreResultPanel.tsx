@@ -3,19 +3,16 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Award, CheckCircle2, Clock, Download, Sparkles, Trophy } from 'lucide-react';
 import {
   analyzeArticleText,
-  COMPETITOR_OPPONENT,
-  COMPETITOR_USER,
-  CURATED_IMPRESSIVE_KEYWORDS,
-  EVALUATION_CRITERIA,
-  FIXED_AYESHA_SCORE,
-  MATCH_LABEL,
-  OPPONENT_GREY_SCORE,
-  SAMPLE_ARTICLE_TITLE,
+  MATCH_1_OPPONENT,
+  MATCH_1_OPPONENT_SCORE,
+  MATCH_1_USER_SCORE,
+  MatchConfig,
 } from '../data/competitionData';
 
 export type EvaluationStage = 'idle' | 'evaluating_user' | 'evaluating_opponent' | 'completed';
 
 interface ScoreResultPanelProps {
+  match: MatchConfig;
   stage: Exclude<EvaluationStage, 'idle'>;
   remainingSeconds: number;
   stageDurationSeconds: number;
@@ -53,7 +50,6 @@ function useAnimatedValue(target: number, active: boolean, durationMs = 1800): n
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const t = Math.min(1, elapsed / durationMs);
-      // Smooth cubic ease-out
       const eased = 1 - Math.pow(1 - t, 3);
       setValue(Math.round(target * eased));
 
@@ -72,6 +68,7 @@ function useAnimatedValue(target: number, active: boolean, durationMs = 1800): n
 const SLOW_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
+  match,
   stage,
   remainingSeconds,
   stageDurationSeconds,
@@ -82,22 +79,20 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
 }) => {
   const prefersReducedMotion = useReducedMotion();
   const stats = analyzeArticleText(body);
-  const displayTitle = title.trim() || SAMPLE_ARTICLE_TITLE;
+  const displayTitle = title.trim() || match.sampleTitle;
 
   const detectedKeywords =
-    stats.extractedKeywords.length >= 3
-      ? stats.extractedKeywords
-      : CURATED_IMPRESSIVE_KEYWORDS;
+    stats.extractedKeywords.length >= 3 ? stats.extractedKeywords : match.curatedKeywords;
 
   const userScoreRevealed = stage === 'evaluating_opponent' || stage === 'completed';
   const opponentRevealed = stage === 'completed';
 
-  const animatedUserScore = useAnimatedValue(FIXED_AYESHA_SCORE, userScoreRevealed, 1800);
-  const animatedOpponentScore = useAnimatedValue(OPPONENT_GREY_SCORE, opponentRevealed, 1800);
+  const animatedUserScore = useAnimatedValue(match.userScore, userScoreRevealed, 1800);
+  const animatedOpponentScore = useAnimatedValue(match.opponentScore, opponentRevealed, 1800);
 
   const radius = 52;
   const circumference = 2 * Math.PI * radius;
-  const targetStrokeOffset = circumference * (1 - FIXED_AYESHA_SCORE / 100);
+  const targetStrokeOffset = circumference * (1 - match.userScore / 100);
 
   const stageProgressPct = Math.min(
     100,
@@ -110,22 +105,23 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
   const handleDownloadReport = () => {
     const matchOutcomeLine =
       stage === 'completed'
-        ? `Match Outcome: ${COMPETITOR_USER} (${FIXED_AYESHA_SCORE}%) defeats ${COMPETITOR_OPPONENT} (${OPPONENT_GREY_SCORE}%) — ${COMPETITOR_USER} Wins ${MATCH_LABEL}!`
-        : `Match Outcome: ${COMPETITOR_OPPONENT} score & Match 1 winning message pending (${formatCountdown(remainingSeconds)} remaining)`;
+        ? `Match Outcome: ${match.user} (${match.userScore}%) defeats ${match.opponent} (${match.opponentScore}%) — ${match.user} Wins ${match.label}!`
+        : `Match Outcome: ${match.opponent} score & ${match.label} winning message pending (${formatCountdown(remainingSeconds)} remaining)`;
 
     const reportLines = [
       'GOOGLE ARTICLE WRITING COMPETITION — OFFICIAL SCORE REPORT',
       '=========================================================',
-      `Match: ${MATCH_LABEL} (${COMPETITOR_USER} vs ${COMPETITOR_OPPONENT})`,
-      `Competitor: ${COMPETITOR_USER}`,
+      `Match: ${match.label} (${match.user} vs ${match.opponent})`,
+      `First Match Record: Match 1 — ${match.user} (${MATCH_1_USER_SCORE}%) vs ${MATCH_1_OPPONENT} (${MATCH_1_OPPONENT_SCORE}%) — Winner: ${match.user}`,
+      `Competitor: ${match.user}`,
       `Article Title: ${displayTitle}`,
       `Submitted At: ${submittedAt}`,
       '',
-      `FINAL SCORE: ${FIXED_AYESHA_SCORE}% — Good Article`,
+      `FINAL SCORE: ${match.userScore}% — Good Article`,
       matchOutcomeLine,
       '',
       'CRITERIA BREAKDOWN:',
-      ...EVALUATION_CRITERIA.map(
+      ...match.criteria.map(
         (c) => `- ${c.title}: ${c.score}% (${c.label}) — ${c.summary}`
       ),
       '',
@@ -137,14 +133,14 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'ayesha-khan-match1-92-percent-report.txt';
+    link.download = `ayesha-khan-${match.id}-${match.userScore}-percent-report.txt`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   };
 
-  // Stage 1: 2-minute evaluation delay before revealing Ayesha Khan's 92% score
+  // Stage 1: 2-minute evaluation delay before revealing user's score
   if (stage === 'evaluating_user') {
     return (
       <motion.section
@@ -159,7 +155,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-xs font-medium text-[#1A73E8]">
                 <Clock className="h-4 w-4" aria-hidden="true" />
-                <span>Step 1 of 2 · Article Review in Progress</span>
+                <span>Step 1 of 2 · {match.label} Article Review in Progress</span>
                 <span aria-hidden="true" className="text-[#5F6368]">·</span>
                 <span className="text-[#5F6368]">{submittedAt}</span>
               </div>
@@ -168,7 +164,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
                 id="evaluating-user-heading"
                 className="font-display text-2xl font-bold text-[#202124] tracking-tight"
               >
-                Evaluating {COMPETITOR_USER}&rsquo;s Article
+                Evaluating {match.user}&rsquo;s {match.label} Article
               </h2>
 
               <p className="text-sm text-[#5F6368] max-w-xl leading-relaxed">
@@ -201,9 +197,9 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
 
           <div className="mt-6 border-t border-[#F1F3F4] pt-4 text-xs text-[#5F6368]">
             <span>
-              Submission locked for Match 1 · After {COMPETITOR_USER}&rsquo;s percentage appears,{' '}
-              {COMPETITOR_OPPONENT}&rsquo;s score and the winning message will reveal after 2
-              additional minutes.
+              Submission locked for {match.label} · After {match.user}&rsquo;s percentage appears,{' '}
+              {match.opponent}&rsquo;s score and the winning message will reveal after 2 additional
+              minutes.
             </span>
           </div>
         </div>
@@ -238,15 +234,15 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-[#137333]">
-                    Official {MATCH_LABEL} Winning Announcement
+                    Official {match.label} Winning Announcement
                   </div>
                   <h3 className="font-display text-xl sm:text-2xl font-bold text-[#202124] tracking-tight">
-                    Congratulations, {COMPETITOR_USER}! You Won {MATCH_LABEL} ({FIXED_AYESHA_SCORE}%
-                    vs {OPPONENT_GREY_SCORE}%)
+                    Congratulations, {match.user}! You Won {match.label} ({match.userScore}% vs{' '}
+                    {match.opponentScore}%)
                   </h3>
                   <p className="mt-1 text-sm text-[#3C4043]">
-                    {COMPETITOR_USER} defeated {COMPETITOR_OPPONENT} by a +
-                    {FIXED_AYESHA_SCORE - OPPONENT_GREY_SCORE}% margin with superior wording and
+                    {match.user} defeated {match.opponent} by a +
+                    {match.userScore - match.opponentScore}% margin with superior wording and
                     impressive keyword depth.
                   </p>
                 </div>
@@ -279,7 +275,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
                 className="h-32 w-32 -rotate-90"
                 viewBox="0 0 120 120"
                 role="img"
-                aria-label="92 percent score gauge"
+                aria-label={`${match.userScore} percent score gauge`}
               >
                 <circle
                   cx="60"
@@ -319,7 +315,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
             >
               <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-[#137333]">
                 <CheckCircle2 className="h-4 w-4 text-[#34A853]" aria-hidden="true" />
-                <span>Evaluation Complete</span>
+                <span>{match.label} Evaluation Complete</span>
                 <span aria-hidden="true" className="text-[#5F6368]">·</span>
                 <span className="text-[#5F6368]">{submittedAt}</span>
               </div>
@@ -333,8 +329,8 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
 
               <p className="mt-1.5 text-sm sm:text-[15px] leading-relaxed text-[#5F6368] max-w-xl">
                 Strong editorial submission by{' '}
-                <span className="font-semibold text-[#202124]">{COMPETITOR_USER}</span>. Recognized
-                for good wording, impressive keywords, cohesive structure, and crisp reader clarity.
+                <span className="font-semibold text-[#202124]">{match.user}</span>. Recognized for
+                good wording, impressive keywords, cohesive structure, and crisp reader clarity.
               </p>
             </motion.div>
           </div>
@@ -357,12 +353,12 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
           </motion.div>
         </div>
 
-        {/* Match 1 Head-to-Head Comparison (Opponent & Winning message wait 2 more minutes) */}
+        {/* Head-to-Head Comparison */}
         <div className="mt-8 border-t border-[#F1F3F4] pt-6">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
             <h3 className="font-display text-sm font-semibold text-[#202124] flex items-center gap-2">
               <Award className="h-4 w-4 text-[#FBBC05]" aria-hidden="true" />
-              {MATCH_LABEL} Head-to-Head Result
+              {match.label} Head-to-Head Result
             </h3>
             <button
               type="button"
@@ -377,7 +373,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
             {/* Ayesha Khan Card */}
             <div className="rounded-xl border border-[#D2E3FC] bg-[#F8FBFF] p-4">
               <div className="flex items-center justify-between gap-2 text-sm">
-                <span className="font-semibold text-[#202124]">{COMPETITOR_USER}</span>
+                <span className="font-semibold text-[#202124]">{match.user}</span>
                 <span className="font-mono font-semibold text-[#137333] tabular-nums">
                   {stage === 'completed'
                     ? `${animatedUserScore}% · Winner`
@@ -388,17 +384,17 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
                 <motion.div
                   className="h-full rounded-full bg-[#34A853]"
                   initial={prefersReducedMotion ? false : { width: '0%' }}
-                  animate={{ width: `${FIXED_AYESHA_SCORE}%` }}
+                  animate={{ width: `${match.userScore}%` }}
                   transition={{ duration: 1.8, ease: SLOW_EASE }}
                 />
               </div>
             </div>
 
-            {/* Opponent Card: either 2-min countdown or slow-revealed 86% */}
+            {/* Opponent Card: either 2-min countdown or slow-revealed score */}
             {stage === 'evaluating_opponent' ? (
               <div className="rounded-xl border border-[#DADCE0] bg-[#F8F9FA] p-4">
                 <div className="flex items-center justify-between gap-2 text-sm">
-                  <span className="font-medium text-[#202124]">{COMPETITOR_OPPONENT}</span>
+                  <span className="font-medium text-[#202124]">{match.opponent}</span>
                   <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[#1A73E8] tabular-nums">
                     <Clock className="h-3.5 w-3.5" aria-hidden="true" />
                     Reveals in {formatCountdown(remainingSeconds)}
@@ -411,8 +407,8 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
                   />
                 </div>
                 <p className="mt-2 text-xs text-[#5F6368]">
-                  Reviewing opponent&rsquo;s percentage and preparing the official Match 1 winning
-                  message.
+                  Reviewing opponent&rsquo;s percentage and preparing the official {match.label}{' '}
+                  winning message.
                 </p>
               </div>
             ) : (
@@ -423,7 +419,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
                 className="rounded-xl border border-[#DADCE0] bg-[#F8F9FA] p-4"
               >
                 <div className="flex items-center justify-between gap-2 text-sm">
-                  <span className="font-medium text-[#3C4043]">{COMPETITOR_OPPONENT}</span>
+                  <span className="font-medium text-[#3C4043]">{match.opponent}</span>
                   <span className="font-mono font-medium text-[#5F6368] tabular-nums">
                     {animatedOpponentScore}% · Opponent
                   </span>
@@ -432,19 +428,31 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
                   <motion.div
                     className="h-full rounded-full bg-[#4285F4]"
                     initial={prefersReducedMotion ? false : { width: '0%' }}
-                    animate={{ width: `${OPPONENT_GREY_SCORE}%` }}
+                    animate={{ width: `${match.opponentScore}%` }}
                     transition={{ duration: 1.8, delay: 0.2, ease: SLOW_EASE }}
                   />
                 </div>
               </motion.div>
             )}
           </div>
+
+          {/* Previous Match 1 Reference Strip when viewing Match 2 */}
+          {match.id === 'match2' && (
+            <div className="mt-4 rounded-xl border border-[#E8EAED] bg-[#F8F9FA] px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F6368]">
+              <span>
+                <span className="font-semibold text-[#202124]">Previous Result (Match 1):</span>{' '}
+                {match.user} ({MATCH_1_USER_SCORE}%) vs {MATCH_1_OPPONENT} ({MATCH_1_OPPONENT_SCORE}
+                %)
+              </span>
+              <span className="font-medium text-[#137333]">Winner: {match.user}</span>
+            </div>
+          )}
         </div>
       </motion.div>
 
       {/* Detailed Evaluation Criteria Grid — gently staggered slow reveal */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {EVALUATION_CRITERIA.map((criterion, index) => (
+        {match.criteria.map((criterion, index) => (
           <motion.div
             key={criterion.id}
             initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
@@ -475,9 +483,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
               />
             </div>
 
-            <p className="mt-3.5 text-sm leading-relaxed text-[#3C4043]">
-              {criterion.summary}
-            </p>
+            <p className="mt-3.5 text-sm leading-relaxed text-[#3C4043]">{criterion.summary}</p>
 
             <ul className="mt-3.5 space-y-1.5 border-t border-[#F1F3F4] pt-3 text-xs text-[#5F6368]">
               {criterion.highlights.map((item) => (
@@ -534,7 +540,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
         {/* Submitted Article Text Snapshot */}
         <div className="mt-6 border-t border-[#F1F3F4] pt-5">
           <div className="text-xs font-medium text-[#5F6368] mb-2">
-            Submitted Article Copy — {COMPETITOR_USER}
+            Submitted Article Copy — {match.user} ({match.label})
           </div>
           <div className="rounded-xl border border-[#E8EAED] bg-[#F8F9FA] p-4 max-h-56 overflow-y-auto text-sm leading-relaxed text-[#3C4043] whitespace-pre-line">
             {body}
