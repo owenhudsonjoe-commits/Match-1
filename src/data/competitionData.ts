@@ -19,7 +19,7 @@ export interface ArticleStats {
 }
 
 export interface MatchConfig {
-  id: 'match1' | 'match2' | 'match3';
+  id: 'match1' | 'match2' | 'match3' | 'match4';
   label: string;
   bracketSubtitle: string;
   user: string;
@@ -43,7 +43,8 @@ export interface CompetitorStanding {
   isMatch1User?: boolean;
   isMatch2User?: boolean;
   isMatch3User?: boolean;
-  isMatch3Opponent?: boolean;
+  isMatch4User?: boolean;
+  isMatch4Opponent?: boolean;
 }
 
 export const COMPETITOR_USER = 'Ayesha Khan';
@@ -59,6 +60,10 @@ export const MATCH_2_OPPONENT_SCORE = 90;
 export const MATCH_3_OPPONENT = 'Adelle Charles';
 export const MATCH_3_USER_SCORE = 97;
 export const MATCH_3_OPPONENT_SCORE = 96;
+
+export const MATCH_4_OPPONENT = 'John Pedro';
+export const MATCH_4_USER_SCORE = 94;
+export const MATCH_4_OPPONENT_SCORE = 89;
 
 export const MATCH_1_CONFIG: MatchConfig = {
   id: 'match1',
@@ -241,7 +246,7 @@ When writers unite clear structure with principled language, they illuminate how
 export const MATCH_3_CONFIG: MatchConfig = {
   id: 'match3',
   label: 'Match 3',
-  bracketSubtitle: 'Semifinal Editorial Bracket',
+  bracketSubtitle: 'Semifinal · Completed Bracket',
   user: COMPETITOR_USER,
   opponent: MATCH_3_OPPONENT,
   opponentArticleTitle: 'Precision Editorial Craft in the Age of Discovery',
@@ -327,6 +332,95 @@ When clarity, cadence, and substance converge, an article transcends fleeting co
   ],
 };
 
+export const MATCH_4_CONFIG: MatchConfig = {
+  id: 'match4',
+  label: 'Match 4',
+  bracketSubtitle: 'Championship Final Editorial Bracket',
+  user: COMPETITOR_USER,
+  opponent: MATCH_4_OPPONENT,
+  opponentArticleTitle: 'Global Information Commons and Editorial Stewardship',
+  userScore: MATCH_4_USER_SCORE,
+  opponentScore: MATCH_4_OPPONENT_SCORE,
+  sampleTitle: 'The Craft of Clarity: Writing for an Interconnected World',
+  sampleBody: `Every enduring piece of journalism rests on a quiet contract between writer and reader: clarity of thought matched by honesty of expression. Across digital platforms overflowing with rapid commentary, articles that stand apart do so through disciplined structure, verified perspective, and purposeful language.
+
+Effective wording turns abstract themes into vivid human insight. By favoring strong active verbs, balanced sentence rhythms, and deliberate transitions, a writer leads readers smoothly from initial curiosity toward deeper comprehension without unnecessary ornament.
+
+Equally vital is strategic keyword craftsmanship. Impressive terms—such as informational integrity, collaborative literacy, contextual synthesis, and resilient discourse—anchor the piece within meaningful contemporary dialogue while remaining natural and accessible.
+
+Ultimately, great competition writing proves that rigor and warmth belong together. When clear reasoning meets memorable prose, an article informs the mind and earns lasting trust.`,
+  criteria: [
+    {
+      id: 'wording',
+      title: 'Good Wording & Diction',
+      score: 95,
+      maxScore: 100,
+      label: 'Strong Phrasing',
+      summary:
+        'Refined editorial cadence, purposeful active verbs, and crisp sentence transitions elevate readability across the entire essay.',
+      highlights: [
+        'Clear, confident voice sustained from lead to conclusion',
+        'Well-paced sentence rhythm with zero awkward phrasing',
+        'Smooth transitions connecting arguments logically',
+      ],
+      accentColor: '#1A73E8',
+    },
+    {
+      id: 'keywords',
+      title: 'Impressive Keywords & Vocabulary',
+      score: 94,
+      maxScore: 100,
+      label: 'Rich Terminology',
+      summary:
+        'High-value conceptual keywords are integrated organically into the prose, strengthening topical authority and search relevance.',
+      highlights: [
+        'Natural placement of distinctive analytical keywords',
+        'Strong lexical variety across every supporting paragraph',
+        'Memorable terminology aligned with modern discourse',
+      ],
+      accentColor: '#34A853',
+    },
+    {
+      id: 'structure',
+      title: 'Structure & Coherence',
+      score: 94,
+      maxScore: 100,
+      label: 'Cohesive Flow',
+      summary:
+        'Clear opening premise, tightly structured body arguments, and a decisive final synthesis give the article strong narrative unity.',
+      highlights: [
+        'Immediate thesis clarity in the introductory paragraph',
+        'Logical sequencing of evidence and editorial examples',
+        'Resonant closing takeaway reinforcing the core thesis',
+      ],
+      accentColor: '#FBBC05',
+    },
+    {
+      id: 'engagement',
+      title: 'Reader Clarity & Impact',
+      score: 93,
+      maxScore: 100,
+      label: 'Compelling Read',
+      summary:
+        'Accessible style combined with thoughtful analytical depth holds reader attention and satisfies championship judging standards.',
+      highlights: [
+        'High readability across complex conceptual passages',
+        'Engaging opening hook and memorable final sentence',
+        'Publication-ready editorial polish throughout',
+      ],
+      accentColor: '#EA4335',
+    },
+  ],
+  curatedKeywords: [
+    'Informational integrity',
+    'Contextual synthesis',
+    'Collaborative literacy',
+    'Resilient discourse',
+    'Purposeful wording',
+    'Lasting trust',
+  ],
+};
+
 export const RUBRIC_BANDS = [
   {
     band: '90% – 100%',
@@ -352,23 +446,40 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
   {
     rank: 1,
     competitor: COMPETITOR_USER,
+    match: 'Match 4',
+    articleTitle: 'Current Match 4 Submission',
+    score: `${MATCH_4_USER_SCORE}%`,
+    status: 'Winner · Match 4',
+    isMatch4User: true,
+  },
+  {
+    rank: 2,
+    competitor: MATCH_4_OPPONENT,
+    match: 'Match 4',
+    articleTitle: MATCH_4_CONFIG.opponentArticleTitle,
+    score: `${MATCH_4_OPPONENT_SCORE}%`,
+    status: 'Completed Entry',
+    isMatch4Opponent: true,
+  },
+  {
+    rank: 3,
+    competitor: COMPETITOR_USER,
     match: 'Match 3',
-    articleTitle: 'Current Match 3 Submission',
+    articleTitle: MATCH_3_CONFIG.sampleTitle,
     score: `${MATCH_3_USER_SCORE}%`,
     status: 'Winner · Match 3',
     isMatch3User: true,
   },
   {
-    rank: 2,
+    rank: 4,
     competitor: MATCH_3_OPPONENT,
     match: 'Match 3',
     articleTitle: MATCH_3_CONFIG.opponentArticleTitle,
     score: `${MATCH_3_OPPONENT_SCORE}%`,
     status: 'Completed Entry',
-    isMatch3Opponent: true,
   },
   {
-    rank: 3,
+    rank: 5,
     competitor: COMPETITOR_USER,
     match: 'Match 1',
     articleTitle: MATCH_1_CONFIG.sampleTitle,
@@ -377,7 +488,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch1User: true,
   },
   {
-    rank: 4,
+    rank: 6,
     competitor: COMPETITOR_USER,
     match: 'Match 2',
     articleTitle: MATCH_2_CONFIG.sampleTitle,
@@ -386,7 +497,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch2User: true,
   },
   {
-    rank: 5,
+    rank: 7,
     competitor: MATCH_2_OPPONENT,
     match: 'Match 2',
     articleTitle: MATCH_2_CONFIG.opponentArticleTitle,
@@ -394,7 +505,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     status: 'Completed Entry',
   },
   {
-    rank: 6,
+    rank: 8,
     competitor: MATCH_1_OPPONENT,
     match: 'Match 1',
     articleTitle: MATCH_1_CONFIG.opponentArticleTitle,

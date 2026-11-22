@@ -9,6 +9,9 @@ import {
   MATCH_2_OPPONENT,
   MATCH_2_OPPONENT_SCORE,
   MATCH_2_USER_SCORE,
+  MATCH_3_OPPONENT,
+  MATCH_3_OPPONENT_SCORE,
+  MATCH_3_USER_SCORE,
   MatchConfig,
 } from '../data/competitionData';
 
@@ -117,6 +120,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
       `Match: ${match.label} (${match.user} vs ${match.opponent})`,
       `Match 1 Record: ${match.user} (${MATCH_1_USER_SCORE}%) vs ${MATCH_1_OPPONENT} (${MATCH_1_OPPONENT_SCORE}%) — Winner: ${match.user}`,
       `Match 2 Record: ${match.user} (${MATCH_2_USER_SCORE}%) vs ${MATCH_2_OPPONENT} (${MATCH_2_OPPONENT_SCORE}%) — Winner: ${match.user}`,
+      `Match 3 Record: ${match.user} (${MATCH_3_USER_SCORE}%) vs ${MATCH_3_OPPONENT} (${MATCH_3_OPPONENT_SCORE}%) — Winner: ${match.user}`,
       `Competitor: ${match.user}`,
       `Article Title: ${displayTitle}`,
       `Submitted At: ${submittedAt}`,
@@ -441,6 +445,19 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
           </div>
 
           {/* Previous Matches Reference Strip */}
+          {match.id === 'match4' && (
+            <div className="mt-4 rounded-xl border border-[#E8EAED] bg-[#F8F9FA] px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F6368]">
+              <span>
+                <span className="font-semibold text-[#202124]">Last Matches:</span>{' '}
+                M1 ({match.user} {MATCH_1_USER_SCORE}% vs {MATCH_1_OPPONENT}{' '}
+                {MATCH_1_OPPONENT_SCORE}%) · M2 ({match.user} {MATCH_2_USER_SCORE}% vs{' '}
+                {MATCH_2_OPPONENT} {MATCH_2_OPPONENT_SCORE}%) · M3 ({match.user}{' '}
+                {MATCH_3_USER_SCORE}% vs {MATCH_3_OPPONENT} {MATCH_3_OPPONENT_SCORE}%)
+              </span>
+              <span className="font-medium text-[#137333]">3–0 Record · {match.user}</span>
+            </div>
+          )}
+
           {match.id === 'match3' && (
             <div className="mt-4 rounded-xl border border-[#E8EAED] bg-[#F8F9FA] px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F6368]">
               <span>
