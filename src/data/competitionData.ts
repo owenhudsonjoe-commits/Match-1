@@ -19,7 +19,7 @@ export interface ArticleStats {
 }
 
 export interface MatchConfig {
-  id: 'match1' | 'match2' | 'match3' | 'match4';
+  id: 'match1' | 'match2' | 'match3' | 'match4' | 'match5';
   label: string;
   bracketSubtitle: string;
   user: string;
@@ -44,7 +44,8 @@ export interface CompetitorStanding {
   isMatch2User?: boolean;
   isMatch3User?: boolean;
   isMatch4User?: boolean;
-  isMatch4Opponent?: boolean;
+  isMatch5User?: boolean;
+  isMatch5Opponent?: boolean;
 }
 
 export const COMPETITOR_USER = 'Ayesha Khan';
@@ -65,10 +66,14 @@ export const MATCH_4_OPPONENT = 'John Pedro';
 export const MATCH_4_USER_SCORE = 94;
 export const MATCH_4_OPPONENT_SCORE = 89;
 
+export const MATCH_5_OPPONENT = 'Sofia Ports';
+export const MATCH_5_USER_SCORE = 99;
+export const MATCH_5_OPPONENT_SCORE = 94;
+
 export const MATCH_1_CONFIG: MatchConfig = {
   id: 'match1',
   label: 'Match 1',
-  bracketSubtitle: 'Round 1 · Completed Bracket',
+  bracketSubtitle: 'Round of 16 · Completed',
   user: COMPETITOR_USER,
   opponent: MATCH_1_OPPONENT,
   opponentArticleTitle: 'Search Patterns & Public Knowledge',
@@ -157,7 +162,7 @@ Ultimately, enduring articles balance analytical authority with human resonance.
 export const MATCH_2_CONFIG: MatchConfig = {
   id: 'match2',
   label: 'Match 2',
-  bracketSubtitle: 'Quarterfinal · Completed Bracket',
+  bracketSubtitle: 'Round of 16 · Completed',
   user: COMPETITOR_USER,
   opponent: MATCH_2_OPPONENT,
   opponentArticleTitle: 'Civic Protocols for Open Knowledge',
@@ -246,7 +251,7 @@ When writers unite clear structure with principled language, they illuminate how
 export const MATCH_3_CONFIG: MatchConfig = {
   id: 'match3',
   label: 'Match 3',
-  bracketSubtitle: 'Semifinal · Completed Bracket',
+  bracketSubtitle: 'Round of 16 · Completed',
   user: COMPETITOR_USER,
   opponent: MATCH_3_OPPONENT,
   opponentArticleTitle: 'Precision Editorial Craft in the Age of Discovery',
@@ -335,7 +340,7 @@ When clarity, cadence, and substance converge, an article transcends fleeting co
 export const MATCH_4_CONFIG: MatchConfig = {
   id: 'match4',
   label: 'Match 4',
-  bracketSubtitle: 'Championship Final Editorial Bracket',
+  bracketSubtitle: 'Round of 16 · Completed',
   user: COMPETITOR_USER,
   opponent: MATCH_4_OPPONENT,
   opponentArticleTitle: 'Global Information Commons and Editorial Stewardship',
@@ -421,6 +426,95 @@ Ultimately, great competition writing proves that rigor and warmth belong togeth
   ],
 };
 
+export const MATCH_5_CONFIG: MatchConfig = {
+  id: 'match5',
+  label: 'Match 5',
+  bracketSubtitle: 'Last Match of Round of 16',
+  user: COMPETITOR_USER,
+  opponent: MATCH_5_OPPONENT,
+  opponentArticleTitle: 'Public Reason and the Future of Searchable Knowledge',
+  userScore: MATCH_5_USER_SCORE,
+  opponentScore: MATCH_5_OPPONENT_SCORE,
+  sampleTitle: 'The Living Ledger: How Precision Prose Elevates Public Knowledge',
+  sampleBody: `In the concluding test of editorial mastery, great journalism demonstrates that clarity and depth are never opposites. When information travels instantly across continents, readers rely on writers who distill complexity without flattening truth—transforming raw observation into enduring civic understanding.
+
+Masterful wording gives an argument unmistakable momentum. Every verb carries precision, every clause serves a structural purpose, and every transition guides the reader effortlessly from foundational evidence to broader human meaning. Nothing feels hurried; nothing feels ornamental.
+
+Equally decisive is extraordinary lexical craft. Impressive keywords—such as epistemic stewardship, luminous clarity, civic synthesis, semantic precision, and enduring accountability—elevate the essay into an authoritative benchmark of modern writing while keeping every sentence effortlessly readable.
+
+As the Round of 16 draws to a close, this standard defines championship writing: prose that commands respect on first reading and continues illuminating ideas long after the final line.`,
+  criteria: [
+    {
+      id: 'wording',
+      title: 'Good Wording & Diction',
+      score: 99,
+      maxScore: 100,
+      label: 'Masterful Phrasing',
+      summary:
+        'Near-flawless editorial prose with luminous cadence, commanding active verbs, and effortless transitions from first sentence to closing synthesis.',
+      highlights: [
+        'Exceptional sentence rhythm and razor-sharp lexical precision',
+        'Zero filler; every phrase advances the central argument',
+        'Publication-grade editorial authority throughout',
+      ],
+      accentColor: '#1A73E8',
+    },
+    {
+      id: 'keywords',
+      title: 'Impressive Keywords & Vocabulary',
+      score: 99,
+      maxScore: 100,
+      label: 'Benchmark Lexicon',
+      summary:
+        'Distinguished domain vocabulary is woven organically into key claims, delivering remarkable semantic richness and lasting conceptual impact.',
+      highlights: [
+        'High-value analytical keywords embedded with natural grace',
+        'Rich, varied vocabulary across every supporting paragraph',
+        'Rare balance of conceptual depth and effortless clarity',
+      ],
+      accentColor: '#34A853',
+    },
+    {
+      id: 'structure',
+      title: 'Structure & Coherence',
+      score: 99,
+      maxScore: 100,
+      label: 'Architectural Unity',
+      summary:
+        'Seamless three-act essay architecture linking a memorable opening hook, rigorously ordered body insights, and a resonant concluding synthesis.',
+      highlights: [
+        'Immediate, unmistakable thesis framing in the lead',
+        'Tightly disciplined paragraph progression and pacing',
+        'Memorable closing synthesis worthy of Round of 16 finale',
+      ],
+      accentColor: '#FBBC05',
+    },
+    {
+      id: 'engagement',
+      title: 'Reader Clarity & Impact',
+      score: 99,
+      maxScore: 100,
+      label: 'Championship Standard',
+      summary:
+        'Captivates both general audiences and competition judges with crystal-clear reasoning, memorable phrasing, and unmistakable authority.',
+      highlights: [
+        'Sustained intellectual momentum across every paragraph',
+        'Highly memorable opening and closing takeaways',
+        'Sets the top Round of 16 benchmark score of 99%',
+      ],
+      accentColor: '#EA4335',
+    },
+  ],
+  curatedKeywords: [
+    'Epistemic stewardship',
+    'Luminous clarity',
+    'Civic synthesis',
+    'Semantic precision',
+    'Enduring accountability',
+    'Championship craft',
+  ],
+};
+
 export const RUBRIC_BANDS = [
   {
     band: '90% – 100%',
@@ -446,20 +540,20 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
   {
     rank: 1,
     competitor: COMPETITOR_USER,
-    match: 'Match 4',
-    articleTitle: 'Current Match 4 Submission',
-    score: `${MATCH_4_USER_SCORE}%`,
-    status: 'Winner · Match 4',
-    isMatch4User: true,
+    match: 'Match 5',
+    articleTitle: 'Current Match 5 Submission',
+    score: `${MATCH_5_USER_SCORE}%`,
+    status: 'Winner · Match 5',
+    isMatch5User: true,
   },
   {
     rank: 2,
-    competitor: MATCH_4_OPPONENT,
-    match: 'Match 4',
-    articleTitle: MATCH_4_CONFIG.opponentArticleTitle,
-    score: `${MATCH_4_OPPONENT_SCORE}%`,
-    status: 'Completed Entry',
-    isMatch4Opponent: true,
+    competitor: MATCH_5_OPPONENT,
+    match: 'Match 5',
+    articleTitle: MATCH_5_CONFIG.opponentArticleTitle,
+    score: `${MATCH_5_OPPONENT_SCORE}%`,
+    status: 'Submitted · Target Score',
+    isMatch5Opponent: true,
   },
   {
     rank: 3,
@@ -481,6 +575,15 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
   {
     rank: 5,
     competitor: COMPETITOR_USER,
+    match: 'Match 4',
+    articleTitle: MATCH_4_CONFIG.sampleTitle,
+    score: `${MATCH_4_USER_SCORE}%`,
+    status: 'Winner · Match 4',
+    isMatch4User: true,
+  },
+  {
+    rank: 6,
+    competitor: COMPETITOR_USER,
     match: 'Match 1',
     articleTitle: MATCH_1_CONFIG.sampleTitle,
     score: `${MATCH_1_USER_SCORE}%`,
@@ -488,7 +591,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch1User: true,
   },
   {
-    rank: 6,
+    rank: 7,
     competitor: COMPETITOR_USER,
     match: 'Match 2',
     articleTitle: MATCH_2_CONFIG.sampleTitle,
@@ -497,7 +600,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch2User: true,
   },
   {
-    rank: 7,
+    rank: 8,
     competitor: MATCH_2_OPPONENT,
     match: 'Match 2',
     articleTitle: MATCH_2_CONFIG.opponentArticleTitle,
@@ -505,7 +608,15 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     status: 'Completed Entry',
   },
   {
-    rank: 8,
+    rank: 9,
+    competitor: MATCH_4_OPPONENT,
+    match: 'Match 4',
+    articleTitle: MATCH_4_CONFIG.opponentArticleTitle,
+    score: `${MATCH_4_OPPONENT_SCORE}%`,
+    status: 'Completed Entry',
+  },
+  {
+    rank: 10,
     competitor: MATCH_1_OPPONENT,
     match: 'Match 1',
     articleTitle: MATCH_1_CONFIG.opponentArticleTitle,

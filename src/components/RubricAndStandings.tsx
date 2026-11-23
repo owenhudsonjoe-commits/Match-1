@@ -11,7 +11,10 @@ import {
   MATCH_3_OPPONENT_SCORE,
   MATCH_3_USER_SCORE,
   MATCH_4_OPPONENT,
+  MATCH_4_OPPONENT_SCORE,
   MATCH_4_USER_SCORE,
+  MATCH_5_OPPONENT,
+  MATCH_5_USER_SCORE,
   MATCH_STANDINGS,
   RUBRIC_BANDS,
 } from '../data/competitionData';
@@ -39,7 +42,7 @@ export const RubricPanel: React.FC<RubricPanelProps> = ({ onBackToMatch }) => {
             onClick={onBackToMatch}
             className="rounded-md bg-[#1A73E8] px-4 py-2 text-sm font-medium text-white hover:bg-[#1557B0] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
           >
-            Back to Match 4
+            Back to Match 5
           </button>
         </div>
 
@@ -67,14 +70,14 @@ export const RubricPanel: React.FC<RubricPanelProps> = ({ onBackToMatch }) => {
 };
 
 interface StandingsPanelProps {
-  match4Stage: EvaluationStage;
-  match4ArticleTitle: string;
+  match5Stage: EvaluationStage;
+  match5ArticleTitle: string;
   onBackToMatch: () => void;
 }
 
 export const StandingsPanel: React.FC<StandingsPanelProps> = ({
-  match4Stage,
-  match4ArticleTitle,
+  match5Stage,
+  match5ArticleTitle,
   onBackToMatch,
 }) => {
   return (
@@ -83,14 +86,14 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#F1F3F4] pb-5">
           <div>
             <h2 className="font-display text-2xl font-bold text-[#202124] tracking-tight">
-              Competition Standings — Matches 1 to 4
+              Round of 16 Standings — Matches 1 to 5
             </h2>
             <p className="mt-1 text-sm text-[#5F6368]">
               M1 ({COMPETITOR_USER} {MATCH_1_USER_SCORE}% vs {MATCH_1_OPPONENT}{' '}
-              {MATCH_1_OPPONENT_SCORE}%), M2 ({COMPETITOR_USER} {MATCH_2_USER_SCORE}% vs{' '}
-              {MATCH_2_OPPONENT} {MATCH_2_OPPONENT_SCORE}%), M3 ({COMPETITOR_USER}{' '}
-              {MATCH_3_USER_SCORE}% vs {MATCH_3_OPPONENT} {MATCH_3_OPPONENT_SCORE}%), and M4 (
-              {COMPETITOR_USER} vs {MATCH_4_OPPONENT}).
+              {MATCH_1_OPPONENT_SCORE}%), M2 ({MATCH_2_USER_SCORE}% vs {MATCH_2_OPPONENT}{' '}
+              {MATCH_2_OPPONENT_SCORE}%), M3 ({MATCH_3_USER_SCORE}% vs {MATCH_3_OPPONENT}{' '}
+              {MATCH_3_OPPONENT_SCORE}%), M4 ({MATCH_4_USER_SCORE}% vs {MATCH_4_OPPONENT}{' '}
+              {MATCH_4_OPPONENT_SCORE}%), and M5 ({COMPETITOR_USER} vs {MATCH_5_OPPONENT}).
             </p>
           </div>
           <button
@@ -98,7 +101,7 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
             onClick={onBackToMatch}
             className="rounded-md bg-[#1A73E8] px-4 py-2 text-sm font-medium text-white hover:bg-[#1557B0] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
           >
-            Back to Match 4
+            Back to Match 5
           </button>
         </div>
 
@@ -119,58 +122,49 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
                 const isPreviousUserWin =
                   Boolean(row.isMatch1User) ||
                   Boolean(row.isMatch2User) ||
-                  Boolean(row.isMatch3User);
-                const isMatch4User = Boolean(row.isMatch4User);
-                const isMatch4Opponent = Boolean(row.isMatch4Opponent);
+                  Boolean(row.isMatch3User) ||
+                  Boolean(row.isMatch4User);
+                const isMatch5User = Boolean(row.isMatch5User);
+                const isMatch5Opponent = Boolean(row.isMatch5Opponent);
 
                 let resolvedTitle = row.articleTitle;
                 let resolvedScore = row.score;
                 let resolvedStatus = row.status;
 
-                if (isMatch4User) {
+                if (isMatch5User) {
                   resolvedTitle =
-                    match4ArticleTitle.trim() ||
-                    (match4Stage !== 'idle'
-                      ? 'Submitted Match 4 Entry'
+                    match5ArticleTitle.trim() ||
+                    (match5Stage !== 'idle'
+                      ? 'Submitted Match 5 Entry'
                       : 'Awaiting Submission');
-                  if (match4Stage === 'idle') {
+                  if (match5Stage === 'idle') {
                     resolvedScore = 'Pending';
                     resolvedStatus = 'Ready to Submit';
-                  } else if (match4Stage === 'evaluating_user') {
+                  } else if (match5Stage === 'evaluating_user') {
                     resolvedScore = 'Evaluating...';
                     resolvedStatus = 'Review in Progress';
-                  } else if (match4Stage === 'evaluating_opponent') {
-                    resolvedScore = `${MATCH_4_USER_SCORE}%`;
+                  } else if (match5Stage === 'evaluating_opponent') {
+                    resolvedScore = `${MATCH_5_USER_SCORE}%`;
                     resolvedStatus = 'Evaluated';
                   } else {
-                    resolvedScore = `${MATCH_4_USER_SCORE}%`;
-                    resolvedStatus = 'Winner · Match 4';
+                    resolvedScore = `${MATCH_5_USER_SCORE}%`;
+                    resolvedStatus = 'Winner · Match 5';
                   }
-                } else if (isMatch4Opponent) {
-                  if (match4Stage === 'idle') {
-                    resolvedScore = 'Pending';
-                    resolvedStatus = 'Awaiting Match 4';
-                  } else if (
-                    match4Stage === 'evaluating_user' ||
-                    match4Stage === 'evaluating_opponent'
-                  ) {
-                    resolvedScore = 'Evaluating...';
-                    resolvedStatus = 'Review in Progress';
-                  } else {
-                    resolvedScore = row.score;
-                    resolvedStatus = row.status;
-                  }
+                } else if (isMatch5Opponent) {
+                  resolvedScore = row.score;
+                  resolvedStatus =
+                    match5Stage === 'completed' ? 'Completed Entry' : 'Submitted · Target Score';
                 }
 
                 const highlightWinner =
                   isPreviousUserWin ||
-                  (isMatch4User &&
-                    (match4Stage === 'evaluating_opponent' || match4Stage === 'completed'));
+                  (isMatch5User &&
+                    (match5Stage === 'evaluating_opponent' || match5Stage === 'completed'));
 
                 return (
                   <tr
                     key={`${row.match}-${row.competitor}`}
-                    className={isPreviousUserWin || isMatch4User ? 'bg-[#F8FBFF]' : 'bg-white'}
+                    className={isPreviousUserWin || isMatch5User ? 'bg-[#F8FBFF]' : 'bg-white'}
                   >
                     <td className="py-3.5 pr-4 font-mono text-[#5F6368] tabular-nums">
                       #{row.rank}
