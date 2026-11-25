@@ -19,7 +19,7 @@ export interface ArticleStats {
 }
 
 export interface MatchConfig {
-  id: 'match1' | 'match2' | 'match3' | 'match4' | 'match5';
+  id: 'match1' | 'match2' | 'match3' | 'match4' | 'match5' | 'match6';
   label: string;
   bracketSubtitle: string;
   user: string;
@@ -45,7 +45,8 @@ export interface CompetitorStanding {
   isMatch3User?: boolean;
   isMatch4User?: boolean;
   isMatch5User?: boolean;
-  isMatch5Opponent?: boolean;
+  isMatch6User?: boolean;
+  isMatch6Opponent?: boolean;
 }
 
 export const COMPETITOR_USER = 'Ayesha Khan';
@@ -69,6 +70,10 @@ export const MATCH_4_OPPONENT_SCORE = 89;
 export const MATCH_5_OPPONENT = 'Sofia Ports';
 export const MATCH_5_USER_SCORE = 99;
 export const MATCH_5_OPPONENT_SCORE = 94;
+
+export const MATCH_6_OPPONENT = 'William Swiffer';
+export const MATCH_6_USER_SCORE = 95;
+export const MATCH_6_OPPONENT_SCORE = 91;
 
 export const MATCH_1_CONFIG: MatchConfig = {
   id: 'match1',
@@ -429,7 +434,7 @@ Ultimately, great competition writing proves that rigor and warmth belong togeth
 export const MATCH_5_CONFIG: MatchConfig = {
   id: 'match5',
   label: 'Match 5',
-  bracketSubtitle: 'Last Match of Round of 16',
+  bracketSubtitle: 'Round of 16 Finale · Completed',
   user: COMPETITOR_USER,
   opponent: MATCH_5_OPPONENT,
   opponentArticleTitle: 'Public Reason and the Future of Searchable Knowledge',
@@ -515,6 +520,95 @@ As the Round of 16 draws to a close, this standard defines championship writing:
   ],
 };
 
+export const MATCH_6_CONFIG: MatchConfig = {
+  id: 'match6',
+  label: 'Match 6',
+  bracketSubtitle: 'Quarterfinal · Editorial Bracket',
+  user: COMPETITOR_USER,
+  opponent: MATCH_6_OPPONENT,
+  opponentArticleTitle: 'Algorithmic Commons and Narrative Authority',
+  userScore: MATCH_6_USER_SCORE,
+  opponentScore: MATCH_6_OPPONENT_SCORE,
+  sampleTitle: 'Quarterfinal Perspectives: Building Shared Meaning in Digital Media',
+  sampleBody: `As competition advances into the Quarterfinals, great article writing demands more than technical polish—it requires a clear moral and analytical compass. Readers turn to thoughtful journalism not simply to stay informed, but to see how disparate technological shifts connect to everyday human agency.
+
+Intentional wording gives complex arguments unmistakable clarity. By pairing concrete evidence with crisp active verbs and measured transitions, a writer transforms dense policy or technical subjects into prose that moves effortlessly from premise to proof.
+
+Equally essential is strategic keyword precision. Impressive terms—such as narrative stewardship, verifiable transparency, institutional trust, cognitive clarity, and civic synthesis—anchor the essay within contemporary dialogue while keeping every paragraph accessible and engaging.
+
+In the Quarterfinal stage, enduring articles prove that depth and readability strengthen one another. When disciplined structure meets memorable phrasing, writing earns both critical distinction and lasting reader confidence.`,
+  criteria: [
+    {
+      id: 'wording',
+      title: 'Good Wording & Diction',
+      score: 96,
+      maxScore: 100,
+      label: 'Strong Phrasing',
+      summary:
+        'Crisp editorial cadence, confident active verbs, and seamless sentence transitions give the Quarterfinal entry authoritative polish.',
+      highlights: [
+        'Purposeful phrasing with zero redundant filler',
+        'Balanced, persuasive tone across every section',
+        'Natural transitions bridging analytical claims cleanly',
+      ],
+      accentColor: '#1A73E8',
+    },
+    {
+      id: 'keywords',
+      title: 'Impressive Keywords & Vocabulary',
+      score: 95,
+      maxScore: 100,
+      label: 'Rich Terminology',
+      summary:
+        'Distinctive domain vocabulary is integrated organically throughout the argument, elevating semantic authority and conceptual clarity.',
+      highlights: [
+        'High-impact topical keywords anchored in real context',
+        'Strong lexical variety across supporting paragraphs',
+        'Memorable phrasing aligned with Quarterfinal standards',
+      ],
+      accentColor: '#34A853',
+    },
+    {
+      id: 'structure',
+      title: 'Structure & Coherence',
+      score: 95,
+      maxScore: 100,
+      label: 'Cohesive Arc',
+      summary:
+        'Well-paced three-part structure leads readers smoothly from an arresting opening thesis through evidence-backed body sections to a resonant close.',
+      highlights: [
+        'Immediate thesis clarity established in the lead',
+        'Disciplined paragraph sequencing and logical flow',
+        'Decisive concluding synthesis tying back to central claim',
+      ],
+      accentColor: '#FBBC05',
+    },
+    {
+      id: 'engagement',
+      title: 'Reader Clarity & Impact',
+      score: 94,
+      maxScore: 100,
+      label: 'Engaging Read',
+      summary:
+        'Accessible clarity paired with analytical depth keeps both general readers and Quarterfinal judges engaged from start to finish.',
+      highlights: [
+        'High readability across nuanced conceptual passages',
+        'Compelling opening and memorable closing takeaway',
+        'Publication-ready Quarterfinal editorial polish',
+      ],
+      accentColor: '#EA4335',
+    },
+  ],
+  curatedKeywords: [
+    'Narrative stewardship',
+    'Verifiable transparency',
+    'Institutional trust',
+    'Cognitive clarity',
+    'Civic synthesis',
+    'Quarterfinal distinction',
+  ],
+};
+
 export const RUBRIC_BANDS = [
   {
     band: '90% – 100%',
@@ -540,23 +634,32 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
   {
     rank: 1,
     competitor: COMPETITOR_USER,
+    match: 'Match 6 (QF)',
+    articleTitle: 'Current Match 6 Submission',
+    score: `${MATCH_6_USER_SCORE}%`,
+    status: 'Winner · Match 6',
+    isMatch6User: true,
+  },
+  {
+    rank: 2,
+    competitor: MATCH_6_OPPONENT,
+    match: 'Match 6 (QF)',
+    articleTitle: MATCH_6_CONFIG.opponentArticleTitle,
+    score: `${MATCH_6_OPPONENT_SCORE}%`,
+    status: 'Completed Entry',
+    isMatch6Opponent: true,
+  },
+  {
+    rank: 3,
+    competitor: COMPETITOR_USER,
     match: 'Match 5',
-    articleTitle: 'Current Match 5 Submission',
+    articleTitle: MATCH_5_CONFIG.sampleTitle,
     score: `${MATCH_5_USER_SCORE}%`,
     status: 'Winner · Match 5',
     isMatch5User: true,
   },
   {
-    rank: 2,
-    competitor: MATCH_5_OPPONENT,
-    match: 'Match 5',
-    articleTitle: MATCH_5_CONFIG.opponentArticleTitle,
-    score: `${MATCH_5_OPPONENT_SCORE}%`,
-    status: 'Submitted · Target Score',
-    isMatch5Opponent: true,
-  },
-  {
-    rank: 3,
+    rank: 4,
     competitor: COMPETITOR_USER,
     match: 'Match 3',
     articleTitle: MATCH_3_CONFIG.sampleTitle,
@@ -565,7 +668,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch3User: true,
   },
   {
-    rank: 4,
+    rank: 5,
     competitor: MATCH_3_OPPONENT,
     match: 'Match 3',
     articleTitle: MATCH_3_CONFIG.opponentArticleTitle,
@@ -573,7 +676,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     status: 'Completed Entry',
   },
   {
-    rank: 5,
+    rank: 6,
     competitor: COMPETITOR_USER,
     match: 'Match 4',
     articleTitle: MATCH_4_CONFIG.sampleTitle,
@@ -582,7 +685,15 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch4User: true,
   },
   {
-    rank: 6,
+    rank: 7,
+    competitor: MATCH_5_OPPONENT,
+    match: 'Match 5',
+    articleTitle: MATCH_5_CONFIG.opponentArticleTitle,
+    score: `${MATCH_5_OPPONENT_SCORE}%`,
+    status: 'Completed Entry',
+  },
+  {
+    rank: 8,
     competitor: COMPETITOR_USER,
     match: 'Match 1',
     articleTitle: MATCH_1_CONFIG.sampleTitle,
@@ -591,7 +702,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch1User: true,
   },
   {
-    rank: 7,
+    rank: 9,
     competitor: COMPETITOR_USER,
     match: 'Match 2',
     articleTitle: MATCH_2_CONFIG.sampleTitle,
@@ -600,7 +711,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch2User: true,
   },
   {
-    rank: 8,
+    rank: 10,
     competitor: MATCH_2_OPPONENT,
     match: 'Match 2',
     articleTitle: MATCH_2_CONFIG.opponentArticleTitle,
@@ -608,7 +719,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     status: 'Completed Entry',
   },
   {
-    rank: 9,
+    rank: 11,
     competitor: MATCH_4_OPPONENT,
     match: 'Match 4',
     articleTitle: MATCH_4_CONFIG.opponentArticleTitle,
@@ -616,7 +727,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     status: 'Completed Entry',
   },
   {
-    rank: 10,
+    rank: 12,
     competitor: MATCH_1_OPPONENT,
     match: 'Match 1',
     articleTitle: MATCH_1_CONFIG.opponentArticleTitle,

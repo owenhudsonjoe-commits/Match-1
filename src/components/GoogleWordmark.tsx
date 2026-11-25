@@ -13,6 +13,9 @@ import {
   MATCH_4_OPPONENT,
   MATCH_4_OPPONENT_SCORE,
   MATCH_4_USER_SCORE,
+  MATCH_5_OPPONENT,
+  MATCH_5_OPPONENT_SCORE,
+  MATCH_5_USER_SCORE,
   MatchConfig,
 } from '../data/competitionData';
 
@@ -51,52 +54,65 @@ export const GoogleWordmark: React.FC<GoogleWordmarkProps> = ({ activeMatch }) =
         <span>{activeMatch.bracketSubtitle}</span>
       </div>
 
-      {/* Last Matches Score Record (Matches 1, 2, 3 & 4) */}
-      <div className="mt-3 mx-auto inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 rounded-xl border border-[#DADCE0] bg-[#F8F9FA] px-4 py-2 text-xs sm:text-sm text-[#3C4043]">
-        <span className="font-semibold text-[#202124]">Last Matches:</span>
-        <span className="font-mono tabular-nums">
-          <span className="font-semibold text-[#202124]">M1:</span>{' '}
-          <span className="font-medium text-[#137333]">
-            {COMPETITOR_USER} {MATCH_1_USER_SCORE}%
-          </span>{' '}
-          <span className="text-[#5F6368]">vs</span>{' '}
-          <span className="text-[#5F6368]">
-            {MATCH_1_OPPONENT} {MATCH_1_OPPONENT_SCORE}%
+      {/* Last Matches Score Record (Round of 16: Matches 1–5) */}
+      <div className="mt-3 mx-auto max-w-4xl rounded-xl border border-[#DADCE0] bg-[#F8F9FA] px-4 py-2.5 text-xs sm:text-[13px] text-[#3C4043]">
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5">
+          <span className="font-semibold text-[#202124]">Last Matches (Round of 16):</span>
+          <span className="font-mono tabular-nums">
+            <span className="font-semibold text-[#202124]">M1:</span>{' '}
+            <span className="font-medium text-[#137333]">
+              {COMPETITOR_USER} {MATCH_1_USER_SCORE}%
+            </span>{' '}
+            <span className="text-[#5F6368]">vs</span>{' '}
+            <span className="text-[#5F6368]">
+              {MATCH_1_OPPONENT} {MATCH_1_OPPONENT_SCORE}%
+            </span>
           </span>
-        </span>
-        <span aria-hidden="true" className="text-[#DADCE0]">|</span>
-        <span className="font-mono tabular-nums">
-          <span className="font-semibold text-[#202124]">M2:</span>{' '}
-          <span className="font-medium text-[#137333]">
-            {COMPETITOR_USER} {MATCH_2_USER_SCORE}%
-          </span>{' '}
-          <span className="text-[#5F6368]">vs</span>{' '}
-          <span className="text-[#5F6368]">
-            {MATCH_2_OPPONENT} {MATCH_2_OPPONENT_SCORE}%
+          <span aria-hidden="true" className="text-[#DADCE0]">|</span>
+          <span className="font-mono tabular-nums">
+            <span className="font-semibold text-[#202124]">M2:</span>{' '}
+            <span className="font-medium text-[#137333]">
+              {COMPETITOR_USER} {MATCH_2_USER_SCORE}%
+            </span>{' '}
+            <span className="text-[#5F6368]">vs</span>{' '}
+            <span className="text-[#5F6368]">
+              {MATCH_2_OPPONENT} {MATCH_2_OPPONENT_SCORE}%
+            </span>
           </span>
-        </span>
-        <span aria-hidden="true" className="text-[#DADCE0]">|</span>
-        <span className="font-mono tabular-nums">
-          <span className="font-semibold text-[#202124]">M3:</span>{' '}
-          <span className="font-medium text-[#137333]">
-            {COMPETITOR_USER} {MATCH_3_USER_SCORE}%
-          </span>{' '}
-          <span className="text-[#5F6368]">vs</span>{' '}
-          <span className="text-[#5F6368]">
-            {MATCH_3_OPPONENT} {MATCH_3_OPPONENT_SCORE}%
+          <span aria-hidden="true" className="text-[#DADCE0]">|</span>
+          <span className="font-mono tabular-nums">
+            <span className="font-semibold text-[#202124]">M3:</span>{' '}
+            <span className="font-medium text-[#137333]">
+              {COMPETITOR_USER} {MATCH_3_USER_SCORE}%
+            </span>{' '}
+            <span className="text-[#5F6368]">vs</span>{' '}
+            <span className="text-[#5F6368]">
+              {MATCH_3_OPPONENT} {MATCH_3_OPPONENT_SCORE}%
+            </span>
           </span>
-        </span>
-        <span aria-hidden="true" className="text-[#DADCE0]">|</span>
-        <span className="font-mono tabular-nums">
-          <span className="font-semibold text-[#202124]">M4:</span>{' '}
-          <span className="font-medium text-[#137333]">
-            {COMPETITOR_USER} {MATCH_4_USER_SCORE}%
-          </span>{' '}
-          <span className="text-[#5F6368]">vs</span>{' '}
-          <span className="text-[#5F6368]">
-            {MATCH_4_OPPONENT} {MATCH_4_OPPONENT_SCORE}%
+          <span aria-hidden="true" className="text-[#DADCE0]">|</span>
+          <span className="font-mono tabular-nums">
+            <span className="font-semibold text-[#202124]">M4:</span>{' '}
+            <span className="font-medium text-[#137333]">
+              {COMPETITOR_USER} {MATCH_4_USER_SCORE}%
+            </span>{' '}
+            <span className="text-[#5F6368]">vs</span>{' '}
+            <span className="text-[#5F6368]">
+              {MATCH_4_OPPONENT} {MATCH_4_OPPONENT_SCORE}%
+            </span>
           </span>
-        </span>
+          <span aria-hidden="true" className="text-[#DADCE0]">|</span>
+          <span className="font-mono tabular-nums">
+            <span className="font-semibold text-[#202124]">M5:</span>{' '}
+            <span className="font-medium text-[#137333]">
+              {COMPETITOR_USER} {MATCH_5_USER_SCORE}%
+            </span>{' '}
+            <span className="text-[#5F6368]">vs</span>{' '}
+            <span className="text-[#5F6368]">
+              {MATCH_5_OPPONENT} {MATCH_5_OPPONENT_SCORE}%
+            </span>
+          </span>
+        </div>
       </div>
     </section>
   );
