@@ -1,27 +1,31 @@
 import React from 'react';
 
-export type ActiveTab = 'match6' | 'history' | 'rubric' | 'standings';
+export type ActiveTab = 'match7' | 'history' | 'rubric' | 'standings';
 
 interface TopBarProps {
   activeTab: ActiveTab;
   onSelectTab: (tab: ActiveTab) => void;
-  hasSubmittedMatch6: boolean;
+  hasSubmittedMatch7: boolean;
   onFocusEditor: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
   activeTab,
   onSelectTab,
-  hasSubmittedMatch6,
+  hasSubmittedMatch7,
   onFocusEditor,
 }) => {
   return (
-    <header className="w-full border-b border-[#DADCE0] bg-white">
+    <header className="w-full border-b border-[#DADCE0] bg-white/95 backdrop-blur-sm">
+      <div
+        aria-hidden="true"
+        className="h-[3px] w-full bg-[linear-gradient(90deg,#4285F4_0%,#EA4335_34%,#FBBC05_67%,#34A853_100%)]"
+      />
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-8 px-6 py-4">
         {/* Zone 1: Single-line Brand Wordmark */}
         <button
           type="button"
-          onClick={() => onSelectTab('match6')}
+          onClick={() => onSelectTab('match7')}
           className="font-display text-lg font-semibold tracking-tight text-[#202124] whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2 rounded-sm"
         >
           <span className="text-[#4285F4]">G</span>
@@ -40,14 +44,14 @@ export const TopBar: React.FC<TopBarProps> = ({
         >
           <button
             type="button"
-            onClick={() => onSelectTab('match6')}
+            onClick={() => onSelectTab('match7')}
             className={`whitespace-nowrap shrink-0 cursor-pointer py-1 transition-colors border-b-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2 ${
-              activeTab === 'match6'
+              activeTab === 'match7'
                 ? 'border-[#1A73E8] text-[#1A73E8]'
                 : 'border-transparent text-[#5F6368] hover:text-[#202124]'
             }`}
           >
-            Match 6
+            Match 7
           </button>
           <button
             type="button"
@@ -86,7 +90,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
         {/* Zone 3: Single Primary Action */}
         <div className="flex items-center shrink-0">
-          {hasSubmittedMatch6 ? (
+          {hasSubmittedMatch7 ? (
             <button
               type="button"
               onClick={() => onSelectTab('standings')}
@@ -98,7 +102,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             <button
               type="button"
               onClick={() => {
-                onSelectTab('match6');
+                onSelectTab('match7');
                 onFocusEditor();
               }}
               className="rounded-md bg-[#1A73E8] px-4 py-2 text-sm font-medium text-white hover:bg-[#1557B0] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2"
@@ -113,12 +117,12 @@ export const TopBar: React.FC<TopBarProps> = ({
       <div className="flex md:hidden items-center gap-5 overflow-x-auto border-t border-[#F1F3F4] px-6 py-2.5 text-sm font-medium">
         <button
           type="button"
-          onClick={() => onSelectTab('match6')}
+          onClick={() => onSelectTab('match7')}
           className={`whitespace-nowrap shrink-0 cursor-pointer ${
-            activeTab === 'match6' ? 'text-[#1A73E8]' : 'text-[#5F6368]'
+            activeTab === 'match7' ? 'text-[#1A73E8]' : 'text-[#5F6368]'
           }`}
         >
-          Match 6
+          Match 7
         </button>
         <button
           type="button"

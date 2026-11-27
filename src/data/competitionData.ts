@@ -19,7 +19,7 @@ export interface ArticleStats {
 }
 
 export interface MatchConfig {
-  id: 'match1' | 'match2' | 'match3' | 'match4' | 'match5' | 'match6';
+  id: 'match1' | 'match2' | 'match3' | 'match4' | 'match5' | 'match6' | 'match7';
   label: string;
   bracketSubtitle: string;
   user: string;
@@ -47,6 +47,8 @@ export interface CompetitorStanding {
   isMatch5User?: boolean;
   isMatch6User?: boolean;
   isMatch6Opponent?: boolean;
+  isMatch7User?: boolean;
+  isMatch7Opponent?: boolean;
 }
 
 export const COMPETITOR_USER = 'Ayesha Khan';
@@ -74,6 +76,10 @@ export const MATCH_5_OPPONENT_SCORE = 94;
 export const MATCH_6_OPPONENT = 'William Swiffer';
 export const MATCH_6_USER_SCORE = 95;
 export const MATCH_6_OPPONENT_SCORE = 91;
+
+export const MATCH_7_OPPONENT = 'Kevin Foster';
+export const MATCH_7_USER_SCORE = 92;
+export const MATCH_7_OPPONENT_SCORE = 90;
 
 export const MATCH_1_CONFIG: MatchConfig = {
   id: 'match1',
@@ -523,7 +529,7 @@ As the Round of 16 draws to a close, this standard defines championship writing:
 export const MATCH_6_CONFIG: MatchConfig = {
   id: 'match6',
   label: 'Match 6',
-  bracketSubtitle: 'Quarterfinal · Editorial Bracket',
+  bracketSubtitle: 'Quarterfinal · Completed',
   user: COMPETITOR_USER,
   opponent: MATCH_6_OPPONENT,
   opponentArticleTitle: 'Algorithmic Commons and Narrative Authority',
@@ -609,6 +615,95 @@ In the Quarterfinal stage, enduring articles prove that depth and readability st
   ],
 };
 
+export const MATCH_7_CONFIG: MatchConfig = {
+  id: 'match7',
+  label: 'Match 7',
+  bracketSubtitle: 'Semifinal · Editorial Bracket',
+  user: COMPETITOR_USER,
+  opponent: MATCH_7_OPPONENT,
+  opponentArticleTitle: 'Civic Imagination and the Architecture of Public Trust',
+  userScore: MATCH_7_USER_SCORE,
+  opponentScore: MATCH_7_OPPONENT_SCORE,
+  sampleTitle: 'Semifinal Perspectives: Precision Language in an Age of Noise',
+  sampleBody: `Reaching the Semifinal stage tests whether a writer can sustain clarity under pressure. In a media landscape flooded with hurried takes, readers gravitate toward prose that respects both evidence and human nuance—replacing sensationalism with disciplined, verifiable reasoning.
+
+Strong editorial wording turns complex ideas into lucid storytelling. Every active verb and measured transition carries intention, moving the audience smoothly from foundational context toward deeper analytical synthesis without losing momentum or warmth.
+
+Equally decisive is thoughtful keyword selection. Impressive terms—such as public accountability, semantic clarity, civic resilience, deliberative dialogue, and enduring trust—anchor the article within high-level discourse while keeping every sentence immediately accessible.
+
+At the Semifinal threshold, great articles demonstrate that rigor and readability belong together. When clear structure unites with memorable phrasing, writing earns lasting reader confidence and advances with authority.`,
+  criteria: [
+    {
+      id: 'wording',
+      title: 'Good Wording & Diction',
+      score: 93,
+      maxScore: 100,
+      label: 'Strong Phrasing',
+      summary:
+        'Crisp, confident wording with balanced sentence pacing and clean editorial transitions keeps the Semifinal entry clear and persuasive.',
+      highlights: [
+        'Active, purposeful verbs with zero filler phrasing',
+        'Measured sentence cadence suited for Semifinal scrutiny',
+        'Smooth transitions linking core thesis claims cleanly',
+      ],
+      accentColor: '#1A73E8',
+    },
+    {
+      id: 'keywords',
+      title: 'Impressive Keywords & Vocabulary',
+      score: 92,
+      maxScore: 100,
+      label: 'Rich Terminology',
+      summary:
+        'Well-chosen analytical keywords are woven naturally into supporting paragraphs, reinforcing topical depth and lexical precision.',
+      highlights: [
+        'Organic integration of high-value conceptual terms',
+        'Strong vocabulary range across every body section',
+        'Memorable phrasing aligned with Semifinal rubric standards',
+      ],
+      accentColor: '#34A853',
+    },
+    {
+      id: 'structure',
+      title: 'Structure & Coherence',
+      score: 92,
+      maxScore: 100,
+      label: 'Well-Organized',
+      summary:
+        'A cohesive three-part editorial arc guides readers smoothly from an engaging opening claim through structured evidence to a decisive finish.',
+      highlights: [
+        'Clear thesis framing established in the opening paragraph',
+        'Logical progression across supporting paragraphs',
+        'Focused concluding synthesis reinforcing central takeaway',
+      ],
+      accentColor: '#FBBC05',
+    },
+    {
+      id: 'engagement',
+      title: 'Reader Clarity & Impact',
+      score: 91,
+      maxScore: 100,
+      label: 'Engaging Read',
+      summary:
+        'High readability paired with grounded analysis holds reader attention end-to-end and outperforms a competitive Semifinal field.',
+      highlights: [
+        'Accessible clarity across multi-clause arguments',
+        'Compelling opening hook and memorable closing line',
+        'Publication-ready editorial polish for the Semifinal',
+      ],
+      accentColor: '#EA4335',
+    },
+  ],
+  curatedKeywords: [
+    'Public accountability',
+    'Semantic clarity',
+    'Civic resilience',
+    'Deliberative dialogue',
+    'Enduring trust',
+    'Semifinal poise',
+  ],
+};
+
 export const RUBRIC_BANDS = [
   {
     band: '90% – 100%',
@@ -634,20 +729,20 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
   {
     rank: 1,
     competitor: COMPETITOR_USER,
-    match: 'Match 6 (QF)',
-    articleTitle: 'Current Match 6 Submission',
-    score: `${MATCH_6_USER_SCORE}%`,
-    status: 'Winner · Match 6',
-    isMatch6User: true,
+    match: 'Match 7 (SF)',
+    articleTitle: 'Current Match 7 Submission',
+    score: `${MATCH_7_USER_SCORE}%`,
+    status: 'Winner · Match 7',
+    isMatch7User: true,
   },
   {
     rank: 2,
-    competitor: MATCH_6_OPPONENT,
-    match: 'Match 6 (QF)',
-    articleTitle: MATCH_6_CONFIG.opponentArticleTitle,
-    score: `${MATCH_6_OPPONENT_SCORE}%`,
+    competitor: MATCH_7_OPPONENT,
+    match: 'Match 7 (SF)',
+    articleTitle: MATCH_7_CONFIG.opponentArticleTitle,
+    score: `${MATCH_7_OPPONENT_SCORE}%`,
     status: 'Completed Entry',
-    isMatch6Opponent: true,
+    isMatch7Opponent: true,
   },
   {
     rank: 3,
@@ -678,6 +773,15 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
   {
     rank: 6,
     competitor: COMPETITOR_USER,
+    match: 'Match 6 (QF)',
+    articleTitle: MATCH_6_CONFIG.sampleTitle,
+    score: `${MATCH_6_USER_SCORE}%`,
+    status: 'Winner · Match 6',
+    isMatch6User: true,
+  },
+  {
+    rank: 7,
+    competitor: COMPETITOR_USER,
     match: 'Match 4',
     articleTitle: MATCH_4_CONFIG.sampleTitle,
     score: `${MATCH_4_USER_SCORE}%`,
@@ -685,7 +789,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch4User: true,
   },
   {
-    rank: 7,
+    rank: 8,
     competitor: MATCH_5_OPPONENT,
     match: 'Match 5',
     articleTitle: MATCH_5_CONFIG.opponentArticleTitle,
@@ -693,7 +797,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     status: 'Completed Entry',
   },
   {
-    rank: 8,
+    rank: 9,
     competitor: COMPETITOR_USER,
     match: 'Match 1',
     articleTitle: MATCH_1_CONFIG.sampleTitle,
@@ -702,7 +806,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch1User: true,
   },
   {
-    rank: 9,
+    rank: 10,
     competitor: COMPETITOR_USER,
     match: 'Match 2',
     articleTitle: MATCH_2_CONFIG.sampleTitle,
@@ -711,7 +815,16 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     isMatch2User: true,
   },
   {
-    rank: 10,
+    rank: 11,
+    competitor: MATCH_6_OPPONENT,
+    match: 'Match 6 (QF)',
+    articleTitle: MATCH_6_CONFIG.opponentArticleTitle,
+    score: `${MATCH_6_OPPONENT_SCORE}%`,
+    status: 'Completed Entry',
+    isMatch6Opponent: true,
+  },
+  {
+    rank: 12,
     competitor: MATCH_2_OPPONENT,
     match: 'Match 2',
     articleTitle: MATCH_2_CONFIG.opponentArticleTitle,
@@ -719,7 +832,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     status: 'Completed Entry',
   },
   {
-    rank: 11,
+    rank: 13,
     competitor: MATCH_4_OPPONENT,
     match: 'Match 4',
     articleTitle: MATCH_4_CONFIG.opponentArticleTitle,
@@ -727,7 +840,7 @@ export const MATCH_STANDINGS: CompetitorStanding[] = [
     status: 'Completed Entry',
   },
   {
-    rank: 12,
+    rank: 14,
     competitor: MATCH_1_OPPONENT,
     match: 'Match 1',
     articleTitle: MATCH_1_CONFIG.opponentArticleTitle,

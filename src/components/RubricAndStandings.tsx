@@ -17,7 +17,10 @@ import {
   MATCH_5_OPPONENT_SCORE,
   MATCH_5_USER_SCORE,
   MATCH_6_OPPONENT,
+  MATCH_6_OPPONENT_SCORE,
   MATCH_6_USER_SCORE,
+  MATCH_7_OPPONENT,
+  MATCH_7_USER_SCORE,
   MATCH_STANDINGS,
   RUBRIC_BANDS,
 } from '../data/competitionData';
@@ -45,7 +48,7 @@ export const RubricPanel: React.FC<RubricPanelProps> = ({ onBackToMatch }) => {
             onClick={onBackToMatch}
             className="rounded-md bg-[#1A73E8] px-4 py-2 text-sm font-medium text-white hover:bg-[#1557B0] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
           >
-            Back to Match 6
+            Back to Match 7
           </button>
         </div>
 
@@ -73,14 +76,14 @@ export const RubricPanel: React.FC<RubricPanelProps> = ({ onBackToMatch }) => {
 };
 
 interface StandingsPanelProps {
-  match6Stage: EvaluationStage;
-  match6ArticleTitle: string;
+  match7Stage: EvaluationStage;
+  match7ArticleTitle: string;
   onBackToMatch: () => void;
 }
 
 export const StandingsPanel: React.FC<StandingsPanelProps> = ({
-  match6Stage,
-  match6ArticleTitle,
+  match7Stage,
+  match7ArticleTitle,
   onBackToMatch,
 }) => {
   return (
@@ -89,15 +92,16 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#F1F3F4] pb-5">
           <div>
             <h2 className="font-display text-2xl font-bold text-[#202124] tracking-tight">
-              Competition Standings — Matches 1 to 6 (Quarterfinal)
+              Competition Standings — Matches 1 to 7 (Semifinal)
             </h2>
             <p className="mt-1 text-sm text-[#5F6368]">
               M1 ({MATCH_1_USER_SCORE}% vs {MATCH_1_OPPONENT} {MATCH_1_OPPONENT_SCORE}%), M2 (
               {MATCH_2_USER_SCORE}% vs {MATCH_2_OPPONENT} {MATCH_2_OPPONENT_SCORE}%), M3 (
               {MATCH_3_USER_SCORE}% vs {MATCH_3_OPPONENT} {MATCH_3_OPPONENT_SCORE}%), M4 (
               {MATCH_4_USER_SCORE}% vs {MATCH_4_OPPONENT} {MATCH_4_OPPONENT_SCORE}%), M5 (
-              {MATCH_5_USER_SCORE}% vs {MATCH_5_OPPONENT} {MATCH_5_OPPONENT_SCORE}%), and M6 QF (
-              {COMPETITOR_USER} vs {MATCH_6_OPPONENT}).
+              {MATCH_5_USER_SCORE}% vs {MATCH_5_OPPONENT} {MATCH_5_OPPONENT_SCORE}%), M6 QF (
+              {MATCH_6_USER_SCORE}% vs {MATCH_6_OPPONENT} {MATCH_6_OPPONENT_SCORE}%), and M7 SF (
+              {COMPETITOR_USER} vs {MATCH_7_OPPONENT}).
             </p>
           </div>
           <button
@@ -105,7 +109,7 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
             onClick={onBackToMatch}
             className="rounded-md bg-[#1A73E8] px-4 py-2 text-sm font-medium text-white hover:bg-[#1557B0] transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
           >
-            Back to Match 6
+            Back to Match 7
           </button>
         </div>
 
@@ -128,40 +132,41 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
                   Boolean(row.isMatch2User) ||
                   Boolean(row.isMatch3User) ||
                   Boolean(row.isMatch4User) ||
-                  Boolean(row.isMatch5User);
-                const isMatch6User = Boolean(row.isMatch6User);
-                const isMatch6Opponent = Boolean(row.isMatch6Opponent);
+                  Boolean(row.isMatch5User) ||
+                  Boolean(row.isMatch6User);
+                const isMatch7User = Boolean(row.isMatch7User);
+                const isMatch7Opponent = Boolean(row.isMatch7Opponent);
 
                 let resolvedTitle = row.articleTitle;
                 let resolvedScore = row.score;
                 let resolvedStatus = row.status;
 
-                if (isMatch6User) {
+                if (isMatch7User) {
                   resolvedTitle =
-                    match6ArticleTitle.trim() ||
-                    (match6Stage !== 'idle'
-                      ? 'Submitted Match 6 Entry'
+                    match7ArticleTitle.trim() ||
+                    (match7Stage !== 'idle'
+                      ? 'Submitted Match 7 Entry'
                       : 'Awaiting Submission');
-                  if (match6Stage === 'idle') {
+                  if (match7Stage === 'idle') {
                     resolvedScore = 'Pending';
                     resolvedStatus = 'Ready to Submit';
-                  } else if (match6Stage === 'evaluating_user') {
+                  } else if (match7Stage === 'evaluating_user') {
                     resolvedScore = 'Evaluating...';
                     resolvedStatus = 'Review in Progress';
-                  } else if (match6Stage === 'evaluating_opponent') {
-                    resolvedScore = `${MATCH_6_USER_SCORE}%`;
+                  } else if (match7Stage === 'evaluating_opponent') {
+                    resolvedScore = `${MATCH_7_USER_SCORE}%`;
                     resolvedStatus = 'Evaluated';
                   } else {
-                    resolvedScore = `${MATCH_6_USER_SCORE}%`;
-                    resolvedStatus = 'Winner · Match 6';
+                    resolvedScore = `${MATCH_7_USER_SCORE}%`;
+                    resolvedStatus = 'Winner · Match 7';
                   }
-                } else if (isMatch6Opponent) {
-                  if (match6Stage === 'idle') {
+                } else if (isMatch7Opponent) {
+                  if (match7Stage === 'idle') {
                     resolvedScore = 'Pending';
-                    resolvedStatus = 'Awaiting Match 6';
+                    resolvedStatus = 'Awaiting Match 7';
                   } else if (
-                    match6Stage === 'evaluating_user' ||
-                    match6Stage === 'evaluating_opponent'
+                    match7Stage === 'evaluating_user' ||
+                    match7Stage === 'evaluating_opponent'
                   ) {
                     resolvedScore = 'Evaluating...';
                     resolvedStatus = 'Review in Progress';
@@ -173,13 +178,13 @@ export const StandingsPanel: React.FC<StandingsPanelProps> = ({
 
                 const highlightWinner =
                   isPreviousUserWin ||
-                  (isMatch6User &&
-                    (match6Stage === 'evaluating_opponent' || match6Stage === 'completed'));
+                  (isMatch7User &&
+                    (match7Stage === 'evaluating_opponent' || match7Stage === 'completed'));
 
                 return (
                   <tr
                     key={`${row.match}-${row.competitor}`}
-                    className={isPreviousUserWin || isMatch6User ? 'bg-[#F8FBFF]' : 'bg-white'}
+                    className={isPreviousUserWin || isMatch7User ? 'bg-[#F8FBFF]' : 'bg-white'}
                   >
                     <td className="py-3.5 pr-4 font-mono text-[#5F6368] tabular-nums">
                       #{row.rank}

@@ -18,6 +18,9 @@ import {
   MATCH_5_OPPONENT,
   MATCH_5_OPPONENT_SCORE,
   MATCH_5_USER_SCORE,
+  MATCH_6_OPPONENT,
+  MATCH_6_OPPONENT_SCORE,
+  MATCH_6_USER_SCORE,
   MatchConfig,
 } from '../data/competitionData';
 
@@ -129,6 +132,7 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
       `Match 3 Record: ${match.user} (${MATCH_3_USER_SCORE}%) vs ${MATCH_3_OPPONENT} (${MATCH_3_OPPONENT_SCORE}%) — Winner: ${match.user}`,
       `Match 4 Record: ${match.user} (${MATCH_4_USER_SCORE}%) vs ${MATCH_4_OPPONENT} (${MATCH_4_OPPONENT_SCORE}%) — Winner: ${match.user}`,
       `Match 5 Record: ${match.user} (${MATCH_5_USER_SCORE}%) vs ${MATCH_5_OPPONENT} (${MATCH_5_OPPONENT_SCORE}%) — Winner: ${match.user}`,
+      `Match 6 Record: ${match.user} (${MATCH_6_USER_SCORE}%) vs ${MATCH_6_OPPONENT} (${MATCH_6_OPPONENT_SCORE}%) — Winner: ${match.user}`,
       `Competitor: ${match.user}`,
       `Article Title: ${displayTitle}`,
       `Submitted At: ${submittedAt}`,
@@ -243,14 +247,26 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 1.35, delay: 0.9, ease: SLOW_EASE }}
           >
-            <div className="rounded-2xl border border-[#CEEAD6] bg-[#E6F4EA] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div
+              className={`rounded-2xl border p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                match.id === 'match7'
+                  ? 'border-[#A8DAB5] bg-[linear-gradient(135deg,#E6F4EA_0%,#FEF7E0_100%)] shadow-[0_4px_18px_rgba(19,115,51,0.08)]'
+                  : 'border-[#CEEAD6] bg-[#E6F4EA]'
+              }`}
+            >
               <div className="flex items-start sm:items-center gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#34A853] text-white">
+                <div
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white ${
+                    match.id === 'match7' ? 'bg-[#137333]' : 'bg-[#34A853]'
+                  }`}
+                >
                   <Trophy className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-[#137333]">
-                    Official {match.label} Winning Announcement
+                    {match.id === 'match7'
+                      ? 'Official Semifinal Winning Announcement — Advances to Final'
+                      : `Official ${match.label} Winning Announcement`}
                   </div>
                   <h3 className="font-display text-xl sm:text-2xl font-bold text-[#202124] tracking-tight">
                     Congratulations, {match.user}! You Won {match.label} ({match.userScore}% vs{' '}
@@ -453,6 +469,20 @@ export const ScoreResultPanel: React.FC<ScoreResultPanelProps> = ({
           </div>
 
           {/* Previous Matches Reference Strip */}
+          {match.id === 'match7' && (
+            <div className="mt-4 rounded-xl border border-[#E8EAED] bg-[#F8F9FA] px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F6368]">
+              <span>
+                <span className="font-semibold text-[#202124]">Last Matches:</span>{' '}
+                M1 ({MATCH_1_USER_SCORE}% vs {MATCH_1_OPPONENT_SCORE}%) · M2 ({MATCH_2_USER_SCORE}
+                % vs {MATCH_2_OPPONENT_SCORE}%) · M3 ({MATCH_3_USER_SCORE}% vs{' '}
+                {MATCH_3_OPPONENT_SCORE}%) · M4 ({MATCH_4_USER_SCORE}% vs {MATCH_4_OPPONENT_SCORE}
+                %) · M5 ({MATCH_5_USER_SCORE}% vs {MATCH_5_OPPONENT_SCORE}%) · M6 QF (
+                {MATCH_6_USER_SCORE}% vs {MATCH_6_OPPONENT_SCORE}%)
+              </span>
+              <span className="font-medium text-[#137333]">6–0 Record · {match.user}</span>
+            </div>
+          )}
+
           {match.id === 'match6' && (
             <div className="mt-4 rounded-xl border border-[#E8EAED] bg-[#F8F9FA] px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs text-[#5F6368]">
               <span>

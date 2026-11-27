@@ -22,17 +22,20 @@ import {
   MATCH_5_OPPONENT_SCORE,
   MATCH_5_USER_SCORE,
   MATCH_6_CONFIG,
+  MATCH_6_OPPONENT_SCORE,
+  MATCH_6_USER_SCORE,
+  MATCH_7_CONFIG,
 } from './data/competitionData';
 
-const USER_EVAL_DELAY_SECONDS = 120; // 2 minutes to show user's 95% score
-const OPPONENT_EVAL_DELAY_SECONDS = 120; // 2 more minutes to show William Swiffer 91% & winning message
+const USER_EVAL_DELAY_SECONDS = 120; // 2 minutes to show user's 92% score
+const OPPONENT_EVAL_DELAY_SECONDS = 120; // 2 more minutes to show Kevin Foster 90% & winning message
 
-type HistoryMatchId = 'match5' | 'match4' | 'match3' | 'match2' | 'match1';
+type HistoryMatchId = 'match6' | 'match5' | 'match4' | 'match3' | 'match2' | 'match1';
 
 export default function App() {
   const prefersReducedMotion = useReducedMotion();
-  const [activeTab, setActiveTab] = useState<ActiveTab>('match6');
-  const [selectedHistoryMatch, setSelectedHistoryMatch] = useState<HistoryMatchId>('match5');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('match7');
+  const [selectedHistoryMatch, setSelectedHistoryMatch] = useState<HistoryMatchId>('match6');
   const [articleTitle, setArticleTitle] = useState('');
   const [articleBody, setArticleBody] = useState('');
 
@@ -49,30 +52,30 @@ export default function App() {
   const elapsedSeconds =
     submissionTimestampMs !== null ? Math.max(0, (nowMs - submissionTimestampMs) / 1000) : 0;
 
-  let match6Stage: EvaluationStage = 'idle';
+  let match7Stage: EvaluationStage = 'idle';
   let remainingSeconds = 0;
   let stageDurationSeconds = USER_EVAL_DELAY_SECONDS;
 
   if (submissionTimestampMs !== null) {
     if (elapsedSeconds < USER_EVAL_DELAY_SECONDS) {
-      match6Stage = 'evaluating_user';
+      match7Stage = 'evaluating_user';
       remainingSeconds = USER_EVAL_DELAY_SECONDS - elapsedSeconds;
       stageDurationSeconds = USER_EVAL_DELAY_SECONDS;
     } else if (elapsedSeconds < totalWaitSeconds) {
-      match6Stage = 'evaluating_opponent';
+      match7Stage = 'evaluating_opponent';
       remainingSeconds = totalWaitSeconds - elapsedSeconds;
       stageDurationSeconds = OPPONENT_EVAL_DELAY_SECONDS;
     } else {
-      match6Stage = 'completed';
+      match7Stage = 'completed';
       remainingSeconds = 0;
       stageDurationSeconds = OPPONENT_EVAL_DELAY_SECONDS;
     }
   }
 
-  const hasSubmittedMatch6 = match6Stage !== 'idle';
+  const hasSubmittedMatch7 = match7Stage !== 'idle';
 
   useEffect(() => {
-    if (submissionTimestampMs === null || match6Stage === 'completed') {
+    if (submissionTimestampMs === null || match7Stage === 'completed') {
       return;
     }
 
@@ -81,10 +84,10 @@ export default function App() {
     }, 250);
 
     return () => window.clearInterval(intervalId);
-  }, [submissionTimestampMs, match6Stage]);
+  }, [submissionTimestampMs, match7Stage]);
 
   const handleFocusEditor = () => {
-    if (hasSubmittedMatch6) return;
+    if (hasSubmittedMatch7) return;
     requestAnimationFrame(() => {
       textareaRef.current?.focus();
       textareaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -92,7 +95,7 @@ export default function App() {
   };
 
   const handleSubmitArticle = () => {
-    if (hasSubmittedMatch6) return;
+    if (hasSubmittedMatch7) return;
     const now = new Date();
     const formattedTime = now.toLocaleTimeString([], {
       hour: '2-digit',
@@ -120,16 +123,18 @@ export default function App() {
           ? MATCH_3_CONFIG
           : selectedHistoryMatch === 'match4'
             ? MATCH_4_CONFIG
-            : MATCH_5_CONFIG;
+            : selectedHistoryMatch === 'match5'
+              ? MATCH_5_CONFIG
+              : MATCH_6_CONFIG;
 
-  const activeWordmarkMatch = activeTab === 'history' ? historyMatchConfig : MATCH_6_CONFIG;
+  const activeWordmarkMatch = activeTab === 'history' ? historyMatchConfig : MATCH_7_CONFIG;
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-[#202124]">
+    <div className="min-h-screen flex flex-col bg-[radial-gradient(ellipse_80%_420px_at_50%_0%,rgba(26,115,232,0.045)_0%,rgba(251,188,5,0.03)_42%,#ffffff_100%)] text-[#202124]">
       <TopBar
         activeTab={activeTab}
         onSelectTab={setActiveTab}
-        hasSubmittedMatch6={hasSubmittedMatch6}
+        hasSubmittedMatch7={hasSubmittedMatch7}
         onFocusEditor={handleFocusEditor}
       />
 
@@ -137,10 +142,10 @@ export default function App() {
         <div className="mx-auto max-w-6xl">
           <GoogleWordmark activeMatch={activeWordmarkMatch} />
 
-          {activeTab === 'match6' && (
+          {activeTab === 'match7' && (
             <>
               <AnimatePresence initial={false}>
-                {!hasSubmittedMatch6 && (
+                {!hasSubmittedMatch7 && (
                   <motion.div
                     key="article-editor-wrapper"
                     initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
@@ -153,7 +158,7 @@ export default function App() {
                     transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <ArticleEditor
-                      match={MATCH_6_CONFIG}
+                      match={MATCH_7_CONFIG}
                       title={articleTitle}
                       body={articleBody}
                       onChangeTitle={setArticleTitle}
@@ -165,11 +170,11 @@ export default function App() {
                 )}
               </AnimatePresence>
 
-              {match6Stage !== 'idle' && (
+              {match7Stage !== 'idle' && (
                 <div ref={resultRef} className="scroll-mt-6">
                   <ScoreResultPanel
-                    match={MATCH_6_CONFIG}
-                    stage={match6Stage}
+                    match={MATCH_7_CONFIG}
+                    stage={match7Stage}
                     remainingSeconds={remainingSeconds}
                     stageDurationSeconds={stageDurationSeconds}
                     title={submittedTitle}
@@ -186,6 +191,17 @@ export default function App() {
             <div className="mx-auto w-full max-w-4xl space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#DADCE0] bg-[#F8F9FA] p-4">
                 <div className="flex flex-wrap items-center gap-1 rounded-lg bg-[#E8EAED] p-1">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedHistoryMatch('match6')}
+                    className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                      selectedHistoryMatch === 'match6'
+                        ? 'bg-white text-[#202124] shadow-sm'
+                        : 'text-[#5F6368] hover:text-[#202124]'
+                    }`}
+                  >
+                    Match 6 ({MATCH_6_USER_SCORE}% vs {MATCH_6_OPPONENT_SCORE}%)
+                  </button>
                   <button
                     type="button"
                     onClick={() => setSelectedHistoryMatch('match5')}
@@ -245,10 +261,10 @@ export default function App() {
 
                 <button
                   type="button"
-                  onClick={() => setActiveTab('match6')}
+                  onClick={() => setActiveTab('match7')}
                   className="rounded-md bg-[#1A73E8] px-4 py-2 text-xs font-medium text-white hover:bg-[#1557B0] transition-colors whitespace-nowrap shrink-0 cursor-pointer"
                 >
-                  Back to Match 6
+                  Back to Match 7
                 </button>
               </div>
 
@@ -267,14 +283,14 @@ export default function App() {
           )}
 
           {activeTab === 'rubric' && (
-            <RubricPanel onBackToMatch={() => setActiveTab('match6')} />
+            <RubricPanel onBackToMatch={() => setActiveTab('match7')} />
           )}
 
           {activeTab === 'standings' && (
             <StandingsPanel
-              match6Stage={match6Stage}
-              match6ArticleTitle={submittedTitle || articleTitle}
-              onBackToMatch={() => setActiveTab('match6')}
+              match7Stage={match7Stage}
+              match7ArticleTitle={submittedTitle || articleTitle}
+              onBackToMatch={() => setActiveTab('match7')}
             />
           )}
         </div>
@@ -287,15 +303,16 @@ export default function App() {
             {MATCH_1_OPPONENT_SCORE}%) · M2 ({MATCH_2_USER_SCORE}% vs {MATCH_2_OPPONENT_SCORE}%) ·
             M3 ({MATCH_3_USER_SCORE}% vs {MATCH_3_OPPONENT_SCORE}%) · M4 ({MATCH_4_USER_SCORE}% vs{' '}
             {MATCH_4_OPPONENT_SCORE}%) · M5 ({MATCH_5_USER_SCORE}% vs {MATCH_5_OPPONENT_SCORE}%) ·
-            M6 QF ({MATCH_6_CONFIG.user} vs {MATCH_6_CONFIG.opponent})
+            M6 QF ({MATCH_6_USER_SCORE}% vs {MATCH_6_OPPONENT_SCORE}%) · M7 SF (
+            {MATCH_7_CONFIG.user} vs {MATCH_7_CONFIG.opponent})
           </div>
           <div className="flex items-center gap-5">
             <button
               type="button"
-              onClick={() => setActiveTab('match6')}
+              onClick={() => setActiveTab('match7')}
               className="hover:text-[#202124] cursor-pointer"
             >
-              Match 6
+              Match 7
             </button>
             <button
               type="button"

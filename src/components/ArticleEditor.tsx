@@ -77,23 +77,25 @@ export const ArticleEditor: React.FC<ArticleEditorProps> = ({
     <section aria-labelledby="paste-section-heading" className="mx-auto w-full max-w-4xl">
       <form
         onSubmit={handleFormSubmit}
-        className="rounded-3xl border border-[#DADCE0] bg-white shadow-[0_1px_6px_rgba(32,33,36,0.10)] transition-shadow focus-within:shadow-[0_2px_10px_rgba(32,33,36,0.16)] focus-within:border-[#C6C9CE]"
+        className="rounded-3xl border border-[#D2DCE8] bg-white shadow-[0_6px_24px_rgba(32,33,36,0.07)] transition-shadow focus-within:shadow-[0_8px_28px_rgba(26,115,232,0.11)] focus-within:border-[#AECBFA]"
       >
-        {/* Google Search-Bar Style Header Strip */}
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#F1F3F4] px-6 py-4">
+        {/* Google Search-Bar Style Semifinal Header Strip */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E8EAED] bg-[#FAFBFD] rounded-t-3xl px-6 py-4">
           <div className="flex items-center gap-3 min-w-0">
-            <Search className="h-5 w-5 shrink-0 text-[#4285F4]" aria-hidden="true" />
+            <Search className="h-5 w-5 shrink-0 text-[#1A73E8]" aria-hidden="true" />
             <div className="min-w-0">
               <h2
                 id="paste-section-heading"
                 className="font-display text-base font-semibold text-[#202124] truncate"
               >
-                {match.label} Article Paste &amp; Writing Workspace
+                {match.label} Semifinal Workspace
               </h2>
               <p className="text-xs text-[#5F6368] truncate">
                 Writer: <span className="font-medium text-[#202124]">{match.user}</span>
                 <span aria-hidden="true"> · </span>
                 Opponent: <span className="font-medium text-[#202124]">{match.opponent}</span>
+                <span aria-hidden="true"> · </span>
+                <span>Single submission</span>
               </p>
             </div>
           </div>
